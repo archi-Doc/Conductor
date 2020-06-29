@@ -7,7 +7,7 @@
         xmlns:Arc="clr-namespace:Arc.WPF"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="Conductor" Height="350" Width="525" Icon="{Binding IconSource}"
+        Title="Conductor" Height="350" Width="450" Icon="{Binding IconSource}"
         SourceInitialized="Window_SourceInitialized" Closing="Window_Closing" KeyDown="Window_KeyDown" StateChanged="Window_StateChanged">
     <Window.Resources>
         <ResourceDictionary>
@@ -38,12 +38,12 @@
             <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{Binding ConductorText}" />
         </DockPanel>
 
-        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+        <WrapPanel DockPanel.Dock="Right" Orientation="Horizontal">
             <local:HMSControl DataContext="{Binding Path=ShutdownHMS}"/>
             <Button x:Name="buttonShutdown" Content="{Arc:C4 button.shutdown}"  Command="{Binding CommandShutdown}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button x:Name="buttonClear" Content="{Arc:C4 button.clear}"  Command="{Binding CommandClear}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button x:Name="buttonAbort" Content="{Arc:C4 button.abort}"  Command="{Binding CommandAbort}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-        </StackPanel>
+        </WrapPanel>
 
         <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:C4 checkbox.prevent.shutdown.while.busy}" IsChecked="{Binding TogglePreventShutdownWhileBusy}" HorizontalAlignment="Left" Margin="6,10,6,6" />
 
