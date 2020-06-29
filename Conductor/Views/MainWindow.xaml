@@ -1,0 +1,59 @@
+﻿<Window x:Class="Conductor.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Conductor.Views"
+        xmlns:Arc="clr-namespace:Arc.WPF"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        mc:Ignorable="d"
+        Title="Conductor" Height="350" Width="525" Icon="{Binding IconSource}"
+        SourceInitialized="Window_SourceInitialized" Closing="Window_Closing" KeyDown="Window_KeyDown" StateChanged="Window_StateChanged">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/skin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <StackPanel Margin="6">
+
+        <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{Binding IconSource}" ToolTipText="{Arc:C4 app.name}" MenuActivation="RightClick" LeftClickCommand="{Binding CommandMessageId}" LeftClickCommandParameter="ActivateWindow">
+            <!-- Set a simple context menu  -->
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="{Arc:C4 taskbar.open}" Command="{Binding CommandMessageId}" CommandParameter="ActivateWindow"/>
+                    <Separator />
+                    <MenuItem Header="{Arc:C4 taskbar.preventpc}" Command="{Binding TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{Binding TogglePreventSleep}" />
+                    <MenuItem Header="{Arc:C4 taskbar.preventscreenoff}" Command="{Binding TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{Binding TogglePreventScreenOff}"/>
+                    <Separator />
+                    <MenuItem Header="{Arc:C4 taskbar.exit}" Command="{Binding TaskbarCommandExit}"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+        <DockPanel LastChildFill="True">
+            <Button DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:C4 button.settings}"  Command="{Binding CommandMessageId}" CommandParameter="Settings" />
+            <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{Binding ConductorText}" />
+        </DockPanel>
+
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+            <local:HMSControl DataContext="{Binding Path=ShutdownHMS}"/>
+            <Button x:Name="buttonShutdown" Content="{Arc:C4 button.shutdown}"  Command="{Binding CommandShutdown}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button x:Name="buttonClear" Content="{Arc:C4 button.clear}"  Command="{Binding CommandClear}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            <Button x:Name="buttonAbort" Content="{Arc:C4 button.abort}"  Command="{Binding CommandAbort}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </StackPanel>
+
+        <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:C4 checkbox.prevent.shutdown.while.busy}" IsChecked="{Binding TogglePreventShutdownWhileBusy}" HorizontalAlignment="Left" Margin="6,10,6,6" />
+
+        <StackPanel Margin="0,4,0,4">
+            <CheckBox x:Name="togglePreventSleep" Content="{Arc:C4 taskbar.preventpc}" IsChecked="{Binding TogglePreventSleep}" HorizontalAlignment="Left" />
+            <CheckBox x:Name="togglePreventScreen" Content="{Arc:C4 taskbar.preventscreenoff}" IsChecked="{Binding TogglePreventScreenOff}" HorizontalAlignment="Left" />
+        </StackPanel>
+
+        <TextBlock x:Name="textDebug" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{Binding DebugText}" />
+    </StackPanel>
+
+
+</Window>

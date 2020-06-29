@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <StartupObject>Application.App</StartupObject>
+    <ApplicationIcon>Resources\Conductor6.ico</ApplicationIcon>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
+    <Version>0.1</Version>
+    <Authors>archi-Doc</Authors>
+    <Product />
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;CLOSEIMMEDIATELY</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Conductor6.ico" />
+    <None Remove="Resources\Conductor6g.ico" />
+    <None Remove="Resources\Conductor6o.ico" />
+    <None Remove="Resources\Conductor6r.ico" />
+    <None Remove="Resources\Conductor6y.ico" />
+    <None Remove="Resources\license.xml" />
+    <None Remove="Resources\strings-en.xml" />
+    <None Remove="Resources\strings-ja.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\license.xml" />
+    <EmbeddedResource Include="Resources\strings-en.xml" />
+    <EmbeddedResource Include="Resources\strings-ja.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" Version="4.2.1" />
+    <PackageReference Include="FastExpressionCompiler" Version="2.0.0" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.0.9-g43dcbd90c0" />
+    <PackageReference Include="MessagePack" Version="2.1.132-ga39a0f7045" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Conductor6.ico" />
+    <Resource Include="Resources\Conductor6g.ico" />
+    <Resource Include="Resources\Conductor6o.ico" />
+    <Resource Include="Resources\Conductor6r.ico" />
+    <Resource Include="Resources\Conductor6y.ico" />
+  </ItemGroup>
+
+</Project>
