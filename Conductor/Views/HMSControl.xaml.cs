@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,21 +17,36 @@ namespace Conductor.Views
             this.InitializeComponent();
         }
 
+        private bool IsOnlyDigits(ReadOnlySpan<char> str)
+        {
+            foreach (var x in str)
+            {
+                if (x >= '0' && x <= '9')
+                {
+                    continue;
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
         private void HourTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !Arc.Text.Methods.IsOnly_Digits(e.Text);
+            e.Handled = !this.IsOnlyDigits(e.Text);
             return;
         }
 
         private void MinuteTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !Arc.Text.Methods.IsOnly_Digits(e.Text);
+            e.Handled = !this.IsOnlyDigits(e.Text);
             return;
         }
 
         private void SecondTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !Arc.Text.Methods.IsOnly_Digits(e.Text);
+            e.Handled = !this.IsOnlyDigits(e.Text);
             return;
         }
 

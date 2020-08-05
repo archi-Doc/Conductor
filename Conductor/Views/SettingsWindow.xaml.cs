@@ -122,7 +122,7 @@ Released under the MIT license
             if (App.Settings.Culture != this.CurrentCulture)
             {// Change culture
                 App.Settings.Culture = this.CurrentCulture;
-                App.C4.SetCulture(App.Settings.Culture);
+                App.C4.ChangeCulture(App.Settings.Culture);
                 Arc.WPF.C4Updater.C4Update();
             }
 

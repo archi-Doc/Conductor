@@ -31,8 +31,11 @@
     <None Remove="Resources\Conductor6o.ico" />
     <None Remove="Resources\Conductor6r.ico" />
     <None Remove="Resources\Conductor6y.ico" />
+    <None Remove="Resources\license.tinyhand" />
     <None Remove="Resources\license.xml" />
+    <None Remove="Resources\strings-en.tinyhand" />
     <None Remove="Resources\strings-en.xml" />
+    <None Remove="Resources\strings-ja.tinyhand" />
     <None Remove="Resources\strings-ja.xml" />
   </ItemGroup>
 
@@ -41,12 +44,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\license.xml" />
-    <EmbeddedResource Include="Resources\strings-en.xml" />
-    <EmbeddedResource Include="Resources\strings-ja.xml" />
+    <EmbeddedResource Include="Resources\license.tinyhand" />
+    <EmbeddedResource Include="Resources\strings-en.tinyhand" />
+    <EmbeddedResource Include="Resources\strings-ja.tinyhand" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Arc.Tinyhand" Version="0.2.0" />
     <PackageReference Include="DryIoc.dll" Version="4.2.1" />
     <PackageReference Include="FastExpressionCompiler" Version="2.0.0" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.0.9-g43dcbd90c0" />
