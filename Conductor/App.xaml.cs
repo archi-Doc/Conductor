@@ -3,11 +3,13 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Arc.Text;
+using Arc.Tinyhand;
 using Arc.Visceral;
 using Arc.WinAPI;
 using Arc.WPF;
@@ -107,6 +109,11 @@ namespace Application
             }
         }
 
+        public static void Waypoint([CallerFilePath] string filePath = "", [CallerLineNumber] int line = 0)
+        {
+            Log.Information($"Waypoint {Path.GetFileName(filePath)} - {line.ToString()}");
+        }
+
         private static void Bootstrap()
         {
             // Register your types:
@@ -175,6 +182,7 @@ namespace Application
                 buffered: true,
                 flushToDiskInterval: TimeSpan.FromMilliseconds(1000))
             .CreateLogger();
+            App.Waypoint();
 
             Log.Information("App startup.");
 
@@ -182,6 +190,7 @@ namespace Application
             var data = AppData.Load();
             Settings = data.Settings;
             Options = data.Options;
+            App.Waypoint();
 
             // Set culture
             try
@@ -193,19 +202,28 @@ namespace Application
                 App.Settings.Culture = AppConst.DefaultCulture;
             }
 
+            App.Waypoint();
+
             // Core
             Core = new ConductorCore();
 
+            App.Waypoint();
+
             Bootstrap();
+            App.Waypoint();
             RunApplication();
+            App.Waypoint();
         }
 
         private static void RunApplication()
         {
             try
             {
+                App.Waypoint();
                 var appClass = new AppClass();
+                App.Waypoint();
                 appClass.Start();
+                App.Waypoint();
             }
             catch (Exception)
             {// Log the exception and exit.
@@ -226,8 +244,11 @@ namespace Application
     {
         public void Start()
         {
+            App.Waypoint();
             this.InitializeComponent();
+            App.Waypoint();
             var mainWindow = App.Resolve<MainWindow>();
+            App.Waypoint();
             this.Run(mainWindow);
         }
 

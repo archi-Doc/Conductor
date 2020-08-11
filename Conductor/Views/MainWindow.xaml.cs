@@ -63,10 +63,12 @@ namespace Conductor.Views
 
         public MainWindow(MainViewModel vm)
         {
+            App.Waypoint();
             this.InitializeComponent();
             this.DataContext = vm;
             this.vm = vm;
 
+            App.Waypoint();
             try
             {
                 ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(1000));
@@ -79,8 +81,10 @@ namespace Conductor.Views
             this.textDebug.Visibility = Visibility.Hidden;
 #endif
 
+            App.Waypoint();
             CrossChannel.Open<Message_Save>(this.Window_Save);
             Transformer.Instance.Register(this, true, false);
+            App.Waypoint();
 
             this.Title = App.Title;
         }
@@ -185,6 +189,7 @@ Released under the MIT license
 
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
+            App.Waypoint();
             if (!App.Settings.LoadError)
             { // Change the UI before this code. The window will be displayed shortly.
                 IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
@@ -196,6 +201,8 @@ Released under the MIT license
                 Arc.WinAPI.Methods.SetWindowPlacement(hwnd, ref wp);
                 Transformer.Instance.AdjustWindowPosition(this);
             }
+
+            App.Waypoint();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

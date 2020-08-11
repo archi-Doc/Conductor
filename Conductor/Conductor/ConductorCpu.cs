@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Application;
 using Serilog;
 
 #pragma warning disable SA1011 // Closing square brackets should be spaced correctly
@@ -23,7 +24,9 @@ namespace Conductor
 
         public ConductorCpu()
         {
+            App.Waypoint();
             Task.Run(() => this.Initialize());
+            App.Waypoint();
         }
 
         public bool Initialized { get; private set; } = false;

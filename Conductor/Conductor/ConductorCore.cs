@@ -118,8 +118,11 @@ namespace Conductor
 
         public ConductorCore()
         {
+            App.Waypoint();
             this.Cpu = new ConductorCpu();
+            App.Waypoint();
             this.Status = new ConductorStatus(this);
+            App.Waypoint();
         }
 
         public int ShutdownWaitingSecond { get; set; } = 60;
@@ -269,6 +272,7 @@ namespace Conductor
         {
             public ConductorStatus(ConductorCore core)
             {
+                App.Waypoint();
                 this.Core = core;
             }
 
