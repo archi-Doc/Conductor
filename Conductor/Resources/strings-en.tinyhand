@@ -1,3 +1,4 @@
+// identifier = "string" /* null: Use default value. */
 app.name = null
 
 // Dialog

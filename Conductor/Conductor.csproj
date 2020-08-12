@@ -8,9 +8,9 @@
     <Nullable>enable</Nullable>
     <StartupObject>Application.App</StartupObject>
     <ApplicationIcon>Resources\Conductor6.ico</ApplicationIcon>
-    <AssemblyVersion>0.1.1.0</AssemblyVersion>
-    <FileVersion>0.1.1.0</FileVersion>
-    <Version>0.1</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>0.2</Version>
     <Authors>archi-Doc</Authors>
     <Product />
     <ApplicationManifest>app.manifest</ApplicationManifest>

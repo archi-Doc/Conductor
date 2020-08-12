@@ -1,4 +1,5 @@
-﻿app.name = "Conductor"
+﻿// identifier = "string" /* null: Use default value. */
+app.name = "Conductor"
 
 // Dialog
 dialog.ok = "O K"
