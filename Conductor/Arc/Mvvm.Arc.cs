@@ -167,7 +167,7 @@ namespace Arc.Mvvm
             this.Next?.UnsubscribeListener();
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // Invoke action when e.PropertyName == null in order to satisfy:
             //  - DelegateCommandFixture.GenericDelegateCommandObservingPropertyShouldRaiseOnEmptyPropertyName
@@ -198,7 +198,7 @@ namespace Arc.Mvvm
             var propNameStack = new Stack<PropertyInfo>();
             while (propertyExpression is MemberExpression temp)
             { // Gets the root of the property chain.
-                propertyExpression = temp.Expression;
+                propertyExpression = temp.Expression!;
                 propNameStack.Push((PropertyInfo)temp.Member); // Records the member info as property info
             }
 
@@ -216,7 +216,7 @@ namespace Arc.Mvvm
                 previousNode = currentNode;
             }
 
-            object propOwnerObject = constantExpression.Value;
+            var propOwnerObject = constantExpression.Value;
 
             if (!(propOwnerObject is INotifyPropertyChanged inpcObject))
             {
@@ -311,12 +311,12 @@ namespace Arc.Mvvm
             this.OnCanExecuteChanged();
         }
 
-        void ICommand.Execute(object parameter)
+        void ICommand.Execute(object? parameter)
         {
             this.Execute(parameter);
         }
 
-        bool ICommand.CanExecute(object parameter)
+        bool ICommand.CanExecute(object? parameter)
         {
             return this.CanExecute(parameter);
         }
@@ -325,14 +325,14 @@ namespace Arc.Mvvm
         /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>.
         /// </summary>
         /// <param name="parameter">Command Parameter.</param>
-        protected abstract void Execute(object parameter);
+        protected abstract void Execute(object? parameter);
 
         /// <summary>
         /// Handle the internal invocation of <see cref="ICommand.CanExecute(object)"/>.
         /// </summary>
         /// <param name="parameter">parameter.</param>
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" />.</returns>
-        protected abstract bool CanExecute(object parameter);
+        protected abstract bool CanExecute(object? parameter);
 
         /// <summary>
         /// Observes a property that implements INotifyPropertyChanged, and automatically calls DelegateCommandBase.RaiseCanExecuteChanged on property changed notifications.
@@ -445,7 +445,7 @@ namespace Arc.Mvvm
         /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>.
         /// </summary>
         /// <param name="parameter">Command Parameter.</param>
-        protected override void Execute(object parameter)
+        protected override void Execute(object? parameter)
         {
             this.Execute();
         }
@@ -455,7 +455,7 @@ namespace Arc.Mvvm
         /// </summary>
         /// <param name="parameter">parameter.</param>
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" />.</returns>
-        protected override bool CanExecute(object parameter)
+        protected override bool CanExecute(object? parameter)
         {
             return this.CanExecute();
         }
@@ -511,15 +511,15 @@ namespace Arc.Mvvm
     /// </remarks>
     public class DelegateCommand<T> : DelegateCommandBase
     {
-        private readonly Action<T> executeMethod;
-        private Func<T, bool> canExecuteMethod;
+        private readonly Action<T?> executeMethod;
+        private Func<T?, bool> canExecuteMethod;
 
         /// <summary>
         /// Initializes a new instance of <see cref="DelegateCommand{T}"/>.
         /// </summary>
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
         /// <remarks><see cref="CanExecute(T)"/> will always return true.</remarks>
-        public DelegateCommand(Action<T> executeMethod)
+        public DelegateCommand(Action<T?> executeMethod)
             : this(executeMethod, (o) => true)
         {
         }
@@ -530,7 +530,7 @@ namespace Arc.Mvvm
         /// <param name="executeMethod">Delegate to execute when Execute is called on the command. This can be null to just hook up a CanExecute delegate.</param>
         /// <param name="canExecuteMethod">Delegate to execute when CanExecute is called on the command. This can be null.</param>
         /// <exception cref="ArgumentNullException">When both <paramref name="executeMethod"/> and <paramref name="canExecuteMethod"/> are <see langword="null" />.</exception>
-        public DelegateCommand(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
+        public DelegateCommand(Action<T?>? executeMethod, Func<T?, bool>? canExecuteMethod)
             : base()
         {
             if (executeMethod == null || canExecuteMethod == null)
@@ -558,7 +558,7 @@ namespace Arc.Mvvm
         /// Executes the command and invokes the <see cref="Action{T}"/> provided during construction.
         /// </summary>
         /// <param name="parameter">Data used by the command.</param>
-        public void Execute(T parameter)
+        public void Execute(T? parameter)
         {
             this.executeMethod(parameter);
         }
@@ -570,7 +570,7 @@ namespace Arc.Mvvm
         /// <returns>
         /// <see langword="true" /> if this command can be executed; otherwise, <see langword="false" />.
         /// </returns>
-        public bool CanExecute(T parameter)
+        public bool CanExecute(T? parameter)
         {
             return this.canExecuteMethod(parameter);
         }
@@ -579,7 +579,7 @@ namespace Arc.Mvvm
         /// Handle the internal invocation of <see cref="ICommand.Execute(object)"/>.
         /// </summary>
         /// <param name="parameter">Command Parameter.</param>
-        protected override void Execute(object parameter)
+        protected override void Execute(object? parameter)
         {
             this.Execute((T)parameter);
         }
@@ -589,7 +589,7 @@ namespace Arc.Mvvm
         /// </summary>
         /// <param name="parameter">parameter.</param>
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" />.</returns>
-        protected override bool CanExecute(object parameter)
+        protected override bool CanExecute(object? parameter)
         {
             return this.CanExecute((T)parameter);
         }
@@ -613,7 +613,7 @@ namespace Arc.Mvvm
         /// <returns>The current instance of DelegateCommand.</returns>
         public DelegateCommand<T> ObservesCanExecute(Expression<Func<bool>> canExecuteExpression)
         {
-            Expression<Func<T, bool>> expression = Expression.Lambda<Func<T, bool>>(canExecuteExpression.Body, Expression.Parameter(typeof(T), "o"));
+            var expression = Expression.Lambda<Func<T?, bool>>(canExecuteExpression.Body, Expression.Parameter(typeof(T), "o"));
             this.canExecuteMethod = expression.Compile();
             this.ObservesPropertyInternal(canExecuteExpression);
             return this;
@@ -688,7 +688,7 @@ namespace Arc.Mvvm
         /// <param name="propertyName">Name of the property used to notify listeners. This
         /// value is optional and can be provided automatically when invoked from compilers
         /// that support <see cref="CallerMemberNameAttribute"/>.</param>
-        protected void RaisePropertyChanged([CallerMemberName]string? propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }

@@ -211,7 +211,7 @@ namespace Arc.WinAPI
                 if (checkProcess.Id != curProcess.Id)
                 {
                     // プロセスのフルパス名を比較して同じアプリケーションか検証
-                    if (string.Compare(checkProcess.MainModule.FileName, curProcess.MainModule.FileName, true) == 0)
+                    if (string.Compare(checkProcess.MainModule?.FileName, curProcess.MainModule?.FileName, true) == 0)
                     {
                         // 同じフルパス名のプロセスを取得
                         return checkProcess;
