@@ -1,6 +1,7 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -9,7 +10,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Arc.Text;
-using Arc.Visceral;
 using Arc.WinAPI;
 using Arc.WPF;
 using Conductor;
@@ -17,8 +17,8 @@ using Conductor.ViewModels;
 using Conductor.Views;
 using Conductor.ViewServices;
 using DryIoc; // alternative: SimpleInjector
-using MessagePack;
 using Serilog;
+using Tinyhand;
 
 #pragma warning disable SA1202 // Elements should be ordered by access
 #pragma warning disable SA1649 // File name should match first type name
@@ -42,7 +42,7 @@ namespace Application
 
         public static Dispatcher UI { get; } = Dispatcher.CurrentDispatcher; // UI dispatcher
 
-        public static Container Container { get; } = new DryIoc.Container(); // DI container
+        public static DryIoc.Container Container { get; } = new DryIoc.Container(); // DI container
 
         public static C4 C4 { get; } = C4.Instance;
 
@@ -277,9 +277,8 @@ namespace Application
         }
     }
 
-    [MessagePackObject]
-    [Reconstructable]
-    public class AppData
+    [TinyhandObject]
+    public partial class AppData
     {
 #pragma warning disable SA1401 // Fields should be private
 
@@ -310,7 +309,7 @@ namespace Application
             {
                 using (var fs = File.OpenRead(AppConst.AppDataFile))
                 {
-                    appData = MessagePackSerializer.Deserialize<AppData>(fs, MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4BlockArray));
+                    appData = TinyhandSerializer.Deserialize<AppData>(fs);
                 }
             }
             catch
@@ -320,10 +319,9 @@ namespace Application
 
             if (appData == null)
             {
-                appData = new AppData();
+                appData = TinyhandSerializer.Reconstruct<AppData>();
             }
 
-            Reconstruct.Do(appData);
             appData.Settings.LoadError = loadError;
 
             return appData;
@@ -333,7 +331,7 @@ namespace Application
         {
             try
             {
-                var bytes = MessagePackSerializer.Serialize(this, MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4BlockArray));
+                var bytes = TinyhandSerializer.Serialize(this);
                 using (var fs = File.Create(AppConst.AppDataFile))
                 {
                     fs.Write(bytes.AsSpan());
@@ -345,8 +343,8 @@ namespace Application
         }
     }
 
-    [MessagePackObject]
-    public class AppSettings : IReconstructable
+    [TinyhandObject]
+    public partial class AppSettings
     {// Application Settings
         public AppSettings()
         {
@@ -359,14 +357,15 @@ namespace Application
         public bool LoadError { get; set; } // True if a loading error has occured.
 
         [Key(1)]
-        [Reconstructable]
         public DipWindowPlacement WindowPlacement { get; set; } = default!;
 
         [Key(2)]
+        [DefaultValue(AppConst.DefaultCulture)]
         public string Culture { get; set; } = AppConst.DefaultCulture; // Default culture
 
         [Key(3)]
-        public double DisplayScaling { get; set; } = 1.0d; // Display Scaling
+        [DefaultValue(1.0d)]
+        public double DisplayScaling { get; set; } // Display Scaling
 
         [Key(4)]
         public bool CloseButtonToTaskbar { get; set; } = true;
@@ -378,30 +377,25 @@ namespace Application
         }
     }
 
-    [MessagePackObject]
-    public class AppOptions : IReconstructable
+    [TinyhandObject]
+    public partial class AppOptions
     { // Application Options
         public AppOptions()
         {
         }
 
         [Key(0)]
-        public BrushOption BrushTest { get; set; } = new BrushOption();
+        public BrushOption BrushTest { get; set; } = new(Colors.Red);
 
         [Key(1)]
         public BrushCollection BrushCollection { get; set; } = new BrushCollection(); // Brush Collection
-
-        public void Reconstruct()
-        {
-            this.BrushTest.Prepare(Colors.Red);
-        }
     }
 
-    [MessagePackObject]
-    public class BrushCollection : IReconstructable
+    [TinyhandObject]
+    public partial class BrushCollection
     {
         [Key(0)]
-        public BrushOption Brush1 { get; set; } = null!;
+        public BrushOption Brush1 { get; set; } = new(Colors.BurlyWood);
 
         public BrushOption this[string name]
         {
@@ -409,11 +403,6 @@ namespace Application
             {
                 return this.Brush1;
             }
-        }
-
-        public void Reconstruct()
-        {
-            this.Brush1.Prepare(Colors.BurlyWood);
         }
     }
 }

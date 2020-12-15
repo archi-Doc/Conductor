@@ -6,8 +6,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Xml.Linq;
-using Arc.Tinyhand;
-using Arc.Tinyhand.Object;
+using Tinyhand;
+using Tinyhand.Tree;
 
 namespace Arc.Text
 {
@@ -228,7 +228,7 @@ namespace Arc.Text
 
             using var ms = new MemoryStream();
             stream.CopyTo(ms);
-            var group = (Group)TinyhandParser.Parse(ms.ToArray());
+            var group = (Tinyhand.Tree.Group)TinyhandParser.Parse(ms.ToArray());
 
             Utf16Hashtable<string>? table = null;
             culture = this.ConvertToCultureName(culture);

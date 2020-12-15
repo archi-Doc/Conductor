@@ -8,22 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Arc.Mvvm;
-using Arc.Visceral;
-using MessagePack;
+using Tinyhand;
 
 #pragma warning disable SA1649 // File name should match first type name
 
 namespace Arc.WPF
 {
-    [MessagePackObject]
-    [Reconstructable]
-    public class BrushOption : BindableBase, IMessagePackSerializationCallbackReceiver
+    [TinyhandObject]
+    public partial class BrushOption : BindableBase, ITinyhandSerializationCallback
     { // Constructor -> (OnAfterDeserialize()) -> Prepare() -> ... -> OnBeforeSerialize()
         private Color initialColor;
         private SolidColorBrush? brush;
 
         public BrushOption()
+            : this(Colors.Black)
         {
+        }
+
+        public BrushOption(Color initialColor)
+        {
+            this.initialColor = initialColor;
+            if (this.Brush == null)
+            {
+                this.Brush = new SolidColorBrush(initialColor);
+            }
         }
 
         [IgnoreMember]
@@ -38,15 +46,6 @@ namespace Arc.WPF
 
         [Key(1)]
         public int BrushColor { get; set; }
-
-        public void Prepare(Color initialColor)
-        {
-            this.initialColor = initialColor;
-            if (this.Brush == null)
-            {
-                this.Brush = new SolidColorBrush(initialColor);
-            }
-        }
 
         public void Change(Color color)
         {

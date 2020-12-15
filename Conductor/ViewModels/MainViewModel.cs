@@ -122,7 +122,7 @@ namespace Conductor.ViewModels
             get => this.taskbarCommand ??= new DelegateCommand<string>(
                     (param) =>
                     { // execute
-                        var id = (TaskbarCommandId)Enum.Parse(typeof(TaskbarCommandId), param);
+                        var id = (TaskbarCommandId)Enum.Parse(typeof(TaskbarCommandId), param!);
                         if (id == TaskbarCommandId.TogglePreventScreenOff)
                         {
                             this.TogglePreventScreenOff = !this.TogglePreventScreenOff;
@@ -212,7 +212,7 @@ namespace Conductor.ViewModels
                 return (this.commandMessageId != null) ? this.commandMessageId : this.commandMessageId = new DelegateCommand<string>(
                     (param) =>
                     { // execute
-                        var id = (MessageId)Enum.Parse(typeof(MessageId), param);
+                        var id = (MessageId)Enum.Parse(typeof(MessageId), param!);
                         this.ViewService.MessageID(id);
                     });
             }

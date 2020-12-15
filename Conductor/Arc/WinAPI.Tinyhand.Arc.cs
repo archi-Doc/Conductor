@@ -2,17 +2,20 @@
 
 using System;
 using System.Runtime.InteropServices;
-using MessagePack;
+using Tinyhand;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order
 #pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
+#pragma warning disable SA1402 // File may only contain a single type
 #pragma warning disable SA1602 // Enumeration items should be documented
 #pragma warning disable SA1649 // File name should match first type name
+#pragma warning disable SA1600 // Elements should be documented
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace Arc.WinAPI
 {
-    [MessagePackObject]
-    public class DipWindowPlacement
+    [TinyhandObject]
+    public partial class DipWindowPlacement
     { // Device Independent, 1/96 inch
         [Key(0)]
         public int Length { get; set; }
@@ -83,8 +86,8 @@ namespace Arc.WinAPI
         }
     }
 
-    [MessagePackObject]
-    public class DipPoint
+    [TinyhandObject]
+    public partial class DipPoint
     { // Device Independent, 1/96 inch
         [Key(0)]
         public double X { get; set; }
@@ -130,8 +133,8 @@ namespace Arc.WinAPI
         }
     }
 
-    [MessagePackObject]
-    public class DipRect
+    [TinyhandObject]
+    public partial class DipRect
     {
         [Key(0)]
         public double Left { get; set; }
@@ -207,10 +210,10 @@ namespace Arc.WinAPI
         internal static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
     }
 
-    [MessagePackObject]
+    [TinyhandObject]
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct WINDOWPLACEMENT
+    public partial struct WINDOWPLACEMENT
     {
         [Key(0)]
         public int length;
@@ -226,10 +229,10 @@ namespace Arc.WinAPI
         public RECT normalPosition;
     }
 
-    [MessagePackObject]
+    [TinyhandObject]
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct POINT
+    public partial struct POINT
     {
         [Key(0)]
         public int X;
@@ -243,10 +246,10 @@ namespace Arc.WinAPI
         }
     }
 
-    [MessagePackObject]
+    [TinyhandObject]
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct RECT
+    public partial struct RECT
     {
         [Key(0)]
         public int Left;
