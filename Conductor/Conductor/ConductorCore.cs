@@ -227,6 +227,7 @@ namespace Conductor
                         }
                     }
 
+                    Arc.WinAPI.Methods.SetThreadExecutionState(Arc.WinAPI.EXECUTION_STATE.ES_DISPLAY_REQUIRED);
                     App.Resolve<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ActivateWindowForce);
 
                     if (this.ShutdownTask == null || this.ShutdownTask.Type != ConductorTaskType.ShutdownProcess)
@@ -243,6 +244,7 @@ namespace Conductor
                         if (cpuUsage > this.SuppressShutdownCpuUsage)
                         {// Cpu Usage is above the threshold.
                             this.Status.ShutdownPending_CpuUsage = cpuUsage;
+                            // this.ShutdownTask = new ConductorTask(ConductorTaskType.Shutdown, 0, 0, 0); // revert
                             return false;
                         }
                     }
