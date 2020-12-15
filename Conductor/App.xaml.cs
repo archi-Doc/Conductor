@@ -370,6 +370,9 @@ namespace Application
         [Key(4)]
         public bool CloseButtonToTaskbar { get; set; } = true;
 
+        [Key(5)]
+        public bool TogglePreventShutdownWhileBusy { get; set; } = false;
+
         public void Reconstruct()
         {
             Transformer.Instance.ScaleX = this.DisplayScaling;

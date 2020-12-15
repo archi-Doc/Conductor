@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Application;
+using Arc.CrossChannel;
 using Arc.Mvvm;
 using Arc.Text;
 using Arc.WPF;
@@ -183,6 +184,7 @@ namespace Conductor.ViewModels
             {
                 this.SetProperty(ref this.togglePreventShutdownWhileBusy, value);
                 App.Core.PreventShutdownWhileBusy = value;
+                App.Settings.TogglePreventShutdownWhileBusy = value;
             }
         }
 
@@ -220,6 +222,8 @@ namespace Conductor.ViewModels
 
         public MainViewModel()
         {
+            this.TogglePreventShutdownWhileBusy = App.Settings.TogglePreventShutdownWhileBusy;
+
             this.SetNotifyIcon();
 
             this.timer = new Timer(1000); // 1 second
