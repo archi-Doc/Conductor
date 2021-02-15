@@ -9,7 +9,7 @@
   <Identity
     Name="e5d083f8-214c-4968-a67c-aaede7090523"
     Publisher="CN=kay"
-    Version="1.0.3.0" />
+    Version="1.0.4.0" />
 
   <Properties>
     <DisplayName>ConductorPackage</DisplayName>
