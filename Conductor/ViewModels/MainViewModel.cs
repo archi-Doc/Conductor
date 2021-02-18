@@ -91,6 +91,7 @@ namespace Conductor.ViewModels
             get => this.commandClear ??= new DelegateCommand(
                     () =>
                     {
+                        this.ViewService.Notification(new NotificationMessage(System.AppDomain.CurrentDomain.BaseDirectory));
                         this.ShutdownHMS.Clear();
                     },
                     () => !this.ActiveShutdown &&

@@ -128,6 +128,8 @@ namespace Application
         [STAThread]
         private static void Main()
         {
+            string path = System.AppDomain.CurrentDomain.BaseDirectory;
+
             // C4
             try
             {
@@ -168,6 +170,7 @@ namespace Application
             }
 
             // Logger: Debug, Information, Warning, Error, Fatal
+            // var logFilePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log.txt");
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.File(
