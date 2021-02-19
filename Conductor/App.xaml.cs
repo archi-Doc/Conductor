@@ -386,7 +386,7 @@ namespace Application
     }
 
     [TinyhandObject]
-    public partial class AppSettings
+    public partial class AppSettings : ITinyhandSerializationCallback
     {// Application Settings
         public AppSettings()
         {
@@ -414,10 +414,14 @@ namespace Application
         [Key(5)]
         public bool TogglePreventShutdownWhileBusy { get; set; } = false;
 
-        public void Reconstruct()
+        public void OnAfterDeserialize()
         {
             Transformer.Instance.ScaleX = this.DisplayScaling;
             Transformer.Instance.ScaleY = this.DisplayScaling;
+        }
+
+        public void OnBeforeSerialize()
+        {
         }
     }
 

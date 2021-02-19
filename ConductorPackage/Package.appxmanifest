@@ -9,8 +9,8 @@
 
   <Identity
     Name="SunriseInc.Conductor.Arc"
-    Publisher="CN=kay"
-    Version="0.8.0.0" />
+    Publisher="CN=archi-Doc"
+    Version="0.8.2.0" />
 
   <Properties>
     <DisplayName>Conductor.Arc</DisplayName>

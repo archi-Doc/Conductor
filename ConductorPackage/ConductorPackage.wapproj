@@ -63,7 +63,7 @@
     <AppInstallerUri>c:\app\pack</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Conductor\Conductor.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateKeyFile>ConductorPackage_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>17AB29A12D88697FECCE619AC072725AF8AB0A64</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <AppxBundle>Always</AppxBundle>
