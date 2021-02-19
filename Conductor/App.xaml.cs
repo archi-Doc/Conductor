@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -53,6 +54,8 @@ namespace Application
         public static string Version { get; private set; } = default!;
 
         public static string Title { get; private set; } = default!;
+
+        public static string LocalDataFolder { get; private set; } = default!;
 
         public static ConductorCore Core { get; private set; } = default!;
 
@@ -127,6 +130,27 @@ namespace Application
         [STAThread]
         private static void Main()
         {
+            // Folder
+            try
+            {
+                // UWP
+                LocalDataFolder = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            }
+            catch
+            {
+                // not UWP
+                LocalDataFolder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppConst.AppDataFolder);
+            }
+
+            try
+            {
+                Directory.CreateDirectory(LocalDataFolder);
+            }
+            catch
+            {
+            }
+
             // C4
             try
             {
@@ -139,8 +163,18 @@ namespace Application
             {
             }
 
-            // Version, Title
-            Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? string.Empty;
+            // Version
+            try
+            {
+                var version = Windows.ApplicationModel.Package.Current.Id.Version;
+                Version = $"{version.Major}.{version.Minor}.{version.Build}";
+            }
+            catch
+            {
+                Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? string.Empty;
+            }
+
+            // Title
             Title = App.C4["app.name"] + " " + App.Version;
 
             // Prevents multiple instances.
@@ -167,10 +201,11 @@ namespace Application
             }
 
             // Logger: Debug, Information, Warning, Error, Fatal
+            // var logFilePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log.txt");
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.File(
-                "log.txt",
+                Path.Combine(LocalDataFolder, "log.txt"),
                 rollingInterval: RollingInterval.Day,
                 buffered: true,
                 flushToDiskInterval: TimeSpan.FromMilliseconds(1000))
@@ -186,6 +221,14 @@ namespace Application
             // Set culture
             try
             {
+                if (App.Settings.Culture == string.Empty)
+                {
+                    if (CultureInfo.CurrentUICulture.Name == "ja-JP")
+                    {
+                        App.Settings.Culture = "ja"; // japanese
+                    }
+                }
+
                 App.C4.ChangeCulture(App.Settings.Culture);
             }
             catch
@@ -307,7 +350,7 @@ namespace Application
 
             try
             {
-                using (var fs = File.OpenRead(AppConst.AppDataFile))
+                using (var fs = File.OpenRead(Path.Combine(App.LocalDataFolder, AppConst.AppDataFile)))
                 {
                     appData = TinyhandSerializer.Deserialize<AppData>(fs);
                 }
@@ -332,7 +375,7 @@ namespace Application
             try
             {
                 var bytes = TinyhandSerializer.Serialize(this);
-                using (var fs = File.Create(AppConst.AppDataFile))
+                using (var fs = File.Create(Path.Combine(App.LocalDataFolder, AppConst.AppDataFile)))
                 {
                     fs.Write(bytes.AsSpan());
                 }
@@ -360,8 +403,7 @@ namespace Application
         public DipWindowPlacement WindowPlacement { get; set; } = default!;
 
         [Key(2)]
-        [DefaultValue(AppConst.DefaultCulture)]
-        public string Culture { get; set; } = AppConst.DefaultCulture; // Default culture
+        public string Culture { get; set; } = default!; // Default culture
 
         [Key(3)]
         [DefaultValue(1.0d)]
