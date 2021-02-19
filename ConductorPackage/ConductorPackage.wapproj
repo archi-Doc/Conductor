@@ -63,7 +63,7 @@
     <AppInstallerUri>c:\app\pack</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Conductor\Conductor.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>A4C9AB18F93E704B2AF88FA1D16F9488977E23D1</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>ConductorPackage_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="ConductorPackage_TemporaryKey.pfx" />
     <Content Include="Images\SplashScreen.scale-200.png" />
     <Content Include="Images\LockScreenLogo.scale-200.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />

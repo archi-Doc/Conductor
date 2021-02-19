@@ -55,6 +55,8 @@ namespace Application
 
         public static string Title { get; private set; } = default!;
 
+        public static string LocalDataFolder { get; private set; } = default!;
+
         public static ConductorCore Core { get; private set; } = default!;
 
         public static TService Resolve<TService>() => Container.Resolve<TService>();
@@ -128,7 +130,26 @@ namespace Application
         [STAThread]
         private static void Main()
         {
-            string path = System.AppDomain.CurrentDomain.BaseDirectory;
+            // Folder
+            try
+            {
+                // UWP
+                LocalDataFolder = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            }
+            catch
+            {
+                // not UWP
+                LocalDataFolder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppConst.AppDataFolder);
+            }
+
+            try
+            {
+                Directory.CreateDirectory(LocalDataFolder);
+            }
+            catch
+            {
+            }
 
             // C4
             try
@@ -142,8 +163,18 @@ namespace Application
             {
             }
 
-            // Version, Title
-            Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? string.Empty;
+            // Version
+            try
+            {
+                var version = Windows.ApplicationModel.Package.Current.Id.Version;
+                Version = $"{version.Major}.{version.Minor}.{version.Build}";
+            }
+            catch
+            {
+                Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? string.Empty;
+            }
+
+            // Title
             Title = App.C4["app.name"] + " " + App.Version;
 
             // Prevents multiple instances.
@@ -174,7 +205,7 @@ namespace Application
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.File(
-                "log.txt",
+                Path.Combine(LocalDataFolder, "log.txt"),
                 rollingInterval: RollingInterval.Day,
                 buffered: true,
                 flushToDiskInterval: TimeSpan.FromMilliseconds(1000))
@@ -319,7 +350,7 @@ namespace Application
 
             try
             {
-                using (var fs = File.OpenRead(AppConst.AppDataFile))
+                using (var fs = File.OpenRead(Path.Combine(App.LocalDataFolder, AppConst.AppDataFile)))
                 {
                     appData = TinyhandSerializer.Deserialize<AppData>(fs);
                 }
@@ -344,7 +375,7 @@ namespace Application
             try
             {
                 var bytes = TinyhandSerializer.Serialize(this);
-                using (var fs = File.Create(AppConst.AppDataFile))
+                using (var fs = File.Create(Path.Combine(App.LocalDataFolder, AppConst.AppDataFile)))
                 {
                     fs.Write(bytes.AsSpan());
                 }
