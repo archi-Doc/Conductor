@@ -201,7 +201,6 @@ namespace Application
             }
 
             // Logger: Debug, Information, Warning, Error, Fatal
-            // var logFilePath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "log.txt");
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .WriteTo.File(
