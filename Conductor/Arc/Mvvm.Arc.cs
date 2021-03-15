@@ -581,7 +581,7 @@ namespace Arc.Mvvm
         /// <param name="parameter">Command Parameter.</param>
         protected override void Execute(object? parameter)
         {
-            this.Execute((T)parameter);
+            this.Execute((T?)parameter);
         }
 
         /// <summary>
@@ -591,7 +591,7 @@ namespace Arc.Mvvm
         /// <returns><see langword="true"/> if the Command Can Execute, otherwise <see langword="false" />.</returns>
         protected override bool CanExecute(object? parameter)
         {
-            return this.CanExecute((T)parameter);
+            return this.CanExecute((T?)parameter);
         }
 
         /// <summary>

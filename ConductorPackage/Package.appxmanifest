@@ -9,7 +9,7 @@
 
   <Identity
     Name="SunriseInc.Conductor.Arc"
-    Publisher="CN=archi-Doc"
+    Publisher="CN=93DD8127-F723-438C-871E-AF0B49015316"
     Version="0.8.2.0" />
 
   <Properties>
