@@ -68,6 +68,17 @@ namespace Conductor
             return max;
         }
 
+        public double GetAverage()
+        {
+            if (!this.Initialized)
+            {
+                return 0;
+            }
+
+            var max = this.PerCoreUsage!.Average(x => x.GetAverage());
+            return max;
+        }
+
         private void Initialize()
         {
             /* var machine = ".";

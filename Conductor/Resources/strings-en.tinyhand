@@ -32,6 +32,7 @@ checkbox.prevent.shutdown.while.busy = "Wait for shutdown while CPU usage is hig
 core.shutdown.remaining = "Shutting down in "
 core.shuttingdown = "Waiting shutdown・・・{0} seconds"
 core.shuttingdown.cpu = "Waiting for shutdown due to high CPU usage（{0:F0} %）"
+core.cpustatus = "CPU Max usage {0:F0} % / Avg. usage {1:F0} %"
 
 // Settings
 settings.title = "Settings/Information"

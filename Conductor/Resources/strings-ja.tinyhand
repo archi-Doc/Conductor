@@ -32,6 +32,7 @@ checkbox.prevent.shutdown.while.busy = "CPU使用率が高い間は、シャッ�
 core.shutdown.remaining = "シャットダウンまで"
 core.shuttingdown = "シャットダウン・・・実行まであと {0} 秒"
 core.shuttingdown.cpu = "シャットダウン・・・CPU使用率が下がるまで待機中（{0:F0} %）"
+core.cpustatus = "CPU 最大使用率 {0:F0} % / 平均使用率 {1:F0} %"
 
 // Settings
 settings.title = "設定/情報"

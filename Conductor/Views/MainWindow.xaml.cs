@@ -75,10 +75,6 @@ namespace Conductor.Views
             {
             }
 
-#if !DEBUG
-            this.textDebug.Visibility = Visibility.Hidden;
-#endif
-
             CrossChannel.Open<Message_Save>(this.Window_Save);
             Transformer.Instance.Register(this, true, false);
 

@@ -41,12 +41,12 @@ namespace Conductor.ViewModels
             set => this.SetProperty(ref this.conductorText, value);
         }
 
-        private string debugText = string.Empty;
+        private string cpuStatusText = string.Empty;
 
-        public string DebugText
+        public string CpuStatusText
         {
-            get => this.debugText;
-            set => this.SetProperty(ref this.debugText, value);
+            get => this.cpuStatusText;
+            set => this.SetProperty(ref this.cpuStatusText, value);
         }
 
         private HMSControlVM shutdownHMS = new HMSControlVM();
@@ -273,6 +273,8 @@ namespace Conductor.ViewModels
             {
                 this.ConductorText = string.Empty;
             }
+
+            this.CpuStatusText = string.Format(App.C4["core.cpustatus"], App.Core.Cpu.GetMaxAverage(), App.Core.Cpu.GetAverage());
 
             // this.DebugText = App.Core.Cpu.GetMaxAverage().ToString();
 
