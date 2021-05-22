@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Application;
-using Arc.CrossChannel;
 using Arc.Mvvm;
 using Arc.Text;
 using Arc.WPF;
 using Conductor.ViewServices;
+using CrossChannel;
 using Serilog;
 
 #pragma warning disable SA1201 // Elements should appear in the correct order

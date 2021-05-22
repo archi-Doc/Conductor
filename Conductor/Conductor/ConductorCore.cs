@@ -3,8 +3,8 @@
 using System;
 using System.Text;
 using Application;
-using Arc.CrossChannel;
 using Conductor.ViewServices;
+using CrossChannel;
 using Serilog;
 
 #pragma warning disable SA1602 // Enumeration items should be documented
@@ -251,8 +251,8 @@ namespace Conductor
 
                     Log.Information("Shutdown process.");
 
-                    CrossChannel.Send(Message_Save.Prepare);
-                    CrossChannel.Send(Message_Save.Save);
+                    Radio.Send(Message_Save.Prepare);
+                    Radio.Send(Message_Save.Save);
 
                     Arc.WinAPI.Methods.AdjustToken();
                     Arc.WinAPI.Methods.ExitWindowsEx(Arc.WinAPI.ExitWindows.EWX_POWEROFF, 0);

@@ -7,11 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Application;
-using Arc.CrossChannel;
 using Arc.Mvvm;
 using Arc.WinAPI;
 using Arc.WPF;
 using Conductor.ViewModels;
+using CrossChannel;
 
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
@@ -75,7 +75,7 @@ namespace Conductor.Views
             {
             }
 
-            CrossChannel.Open<Message_Save>(this.Window_Save);
+            Radio.Open<Message_Save>(this.Window_Save);
             Transformer.Instance.Register(this, true, false);
 
             this.Title = App.Title;
