@@ -57,7 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.CrossChannel" Version="0.2.1" />
+    <PackageReference Include="Arc.CrossChannel" Version="0.3.0" />
     <PackageReference Include="DryIoc.dll" Version="4.7.7" />
     <PackageReference Include="FastExpressionCompiler" Version="3.1.0" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
