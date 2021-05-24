@@ -12,9 +12,19 @@ namespace Conductor.Views
 {
     public partial class HMSControl : UserControl
     {
+        public static readonly DependencyProperty EnterCommandProperty =
+            DependencyProperty.Register("EnterCommand", typeof(ICommand), typeof(HMSControl), new PropertyMetadata(null));
+
         public HMSControl()
         {
             this.InitializeComponent();
+        }
+
+        public ICommand EnterCommand
+        {
+            get => (ICommand)this.GetValue(EnterCommandProperty);
+
+            set => this.SetValue(EnterCommandProperty, value);
         }
 
         private bool IsOnlyDigits(ReadOnlySpan<char> str)
@@ -64,6 +74,11 @@ namespace Conductor.Views
                 e.Handled = true;
                 vm?.UpDown(0, false);
             }
+            else if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                this.EnterCommand?.Execute(null);
+            }
 
             return;
         }
@@ -82,6 +97,11 @@ namespace Conductor.Views
                 e.Handled = true;
                 vm?.UpDown(1, false);
             }
+            else if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                this.EnterCommand?.Execute(null);
+            }
         }
 
         private void SecondTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -97,6 +117,11 @@ namespace Conductor.Views
             {
                 e.Handled = true;
                 vm?.UpDown(2, false);
+            }
+            else if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                this.EnterCommand?.Execute(null);
             }
         }
 
