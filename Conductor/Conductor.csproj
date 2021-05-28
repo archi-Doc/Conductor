@@ -4,13 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <StartupObject>Application.App</StartupObject>
     <ApplicationIcon>Resources\Conductor6.ico</ApplicationIcon>
     <Authors>archi-Doc</Authors>
-    <Product />
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
