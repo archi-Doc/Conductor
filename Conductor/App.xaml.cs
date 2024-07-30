@@ -134,11 +134,15 @@ namespace Application
             try
             {
                 // UWP
-                LocalDataFolder = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+                // LocalDataFolder = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
             }
             catch
             {
                 // not UWP
+            }
+
+            if (string.IsNullOrEmpty(LocalDataFolder))
+            {
                 LocalDataFolder = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppConst.AppDataFolder);
             }
@@ -166,10 +170,17 @@ namespace Application
             // Version
             try
             {
-                var version = Windows.ApplicationModel.Package.Current.Id.Version;
-                Version = $"{version.Major}.{version.Minor}.{version.Build}";
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                if (version is not null)
+                {
+                    Version = $"{version.Major}.{version.Minor}.{version.Build}";
+                }
             }
             catch
+            {
+            }
+
+            if (string.IsNullOrEmpty(Version))
             {
                 Version = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? string.Empty;
             }
