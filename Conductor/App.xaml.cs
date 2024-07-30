@@ -420,6 +420,10 @@ namespace Application
             Transformer.Instance.ScaleY = this.DisplayScaling;
         }
 
+        public void OnAfterReconstruct()
+        {
+        }
+
         public void OnBeforeSerialize()
         {
         }

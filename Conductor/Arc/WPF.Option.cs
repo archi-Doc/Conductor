@@ -61,6 +61,10 @@ namespace Arc.WPF
             }
         }
 
+        public void OnAfterReconstruct()
+        {
+        }
+
         public void OnBeforeSerialize()
         { // Before data is saved.
             if (this.Brush != null)
