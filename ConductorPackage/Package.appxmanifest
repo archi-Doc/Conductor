@@ -10,7 +10,7 @@
   <Identity
     Name="SunriseInc.Conductor.Arc"
     Publisher="CN=93DD8127-F723-438C-871E-AF0B49015316"
-    Version="0.9.1.0" />
+    Version="0.10.0.0" />
 
   <Properties>
     <DisplayName>Conductor.Arc</DisplayName>
