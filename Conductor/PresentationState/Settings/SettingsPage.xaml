@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Conductor.Presentation.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Conductor.Presentation"
+    xmlns:Arc="using:Arc.WinUI"
+    xmlns:Arc2="using:CommunityToolkit.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Arc:Stringer Source=Settings.DataFolder}" VerticalAlignment="Center" Padding="10" />
+        <Button Grid.Row="0" Grid.Column="1" Content="{Arc:Stringer Source=Settings.Open}" VerticalAlignment="Center" Command="{x:Bind State.OpenDataDirectoryCommand}" />
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Arc:Stringer Source=Settings.Language}" Padding="10" />
+        <DropDownButton x:Name="dropdownLanguage" Grid.Row="1" Grid.Column="1" Content="{x:Bind State.LanguageText, Mode=TwoWay}">
+            <DropDownButton.Flyout>
+                <MenuFlyout x:Name="menuLanguage" Placement="Bottom">
+                </MenuFlyout>
+            </DropDownButton.Flyout>
+        </DropDownButton>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="{Arc:Stringer Source=Settings.DisplayScaling}" Padding="10" />
+        <DropDownButton x:Name="dropdownScaling" Grid.Row="2" Grid.Column="1" Content="{x:Bind State.ScalingText, Mode=TwoWay}">
+            <DropDownButton.Flyout>
+                <MenuFlyout x:Name="menuScaling" Placement="Bottom" />
+            </DropDownButton.Flyout>
+        </DropDownButton>
+
+    </Grid>
+</Page>

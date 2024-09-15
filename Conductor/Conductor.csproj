@@ -1,30 +1,41 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <LangVersion>latest</LangVersion>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-    <UseWPF>true</UseWPF>
+    <WinUISDKReferences>false</WinUISDKReferences>
+    <TargetFramework>$(ProjectTargetFramework)</TargetFramework>
+    <TargetPlatformVersion>$(ProjectTargetPlatformVersion)</TargetPlatformVersion>
+    <TargetPlatformMinVersion>$(ProjectTargetPlatformMinVersion)</TargetPlatformMinVersion>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <RootNamespace>Conductor</RootNamespace>
+    <ApplicationManifest>App\App.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\App.ico</ApplicationIcon>
+    <NoWarn>$(NoWarn);NETSDK1206</NoWarn>
+
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
-    <StartupObject>Application.App</StartupObject>
-    <ApplicationManifest>App.manifest</ApplicationManifest>
-    <ApplicationIcon>Resources\Conductor6.ico</ApplicationIcon>
-    <Authors>archi-Doc</Authors>
+    <StartupObject>Conductor.App</StartupObject>
+    <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Conductor6.ico" />
-    <None Remove="Resources\Conductor6g.ico" />
-    <None Remove="Resources\Conductor6o.ico" />
-    <None Remove="Resources\Conductor6r.ico" />
-    <None Remove="Resources\Conductor6y.ico" />
-    <None Remove="Resources\license.tinyhand" />
-    <None Remove="Resources\license.xml" />
-    <None Remove="Resources\strings-en.tinyhand" />
-    <None Remove="Resources\strings-en.xml" />
-    <None Remove="Resources\strings-ja.tinyhand" />
-    <None Remove="Resources\strings-ja.xml" />
+    <PackageReference Include="Arc.WinUI" Version="0.7.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.0.240109" />
+    <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="$(ProjectWindowsAppSdkVersion)" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="$(ProjectBuildToolsVersion)" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Generated\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="App\AppClass.xaml" />
+    <ApplicationDefinition Include="App\AppClass.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,32 +43,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\license.tinyhand" />
-    <EmbeddedResource Include="Resources\strings-en.tinyhand" />
-    <EmbeddedResource Include="Resources\strings-ja.tinyhand" />
+    <EmbeddedResource Include="Resources\Strings\License.tinyhand" />
+    <EmbeddedResource Include="Resources\Strings\String-en.tinyhand" />
+    <EmbeddedResource Include="Resources\Strings\String-ja.tinyhand" />
+    <EmbeddedResource Include="Resources\App.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.CrossChannel" Version="1.3.0" />
-    <PackageReference Include="DryIoc.dll" Version="5.4.3" />
-    <PackageReference Include="FastExpressionCompiler" Version="4.2.1" />
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-    <PackageReference Include="Serilog" Version="4.0.1" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Arc.Crypto" Version="1.26.1" />
+    <PackageReference Include="Arc.Threading" Version="0.28.2" />
+    <PackageReference Include="Arc.Unit" Version="0.16.0" />
+    <PackageReference Include="CrystalData" Version="0.18.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Tinyhand" Version="0.78.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\Conductor6.ico" />
-    <Resource Include="Resources\Conductor6g.ico" />
-    <Resource Include="Resources\Conductor6o.ico" />
-    <Resource Include="Resources\Conductor6r.ico" />
-    <Resource Include="Resources\Conductor6y.ico" />
+    <PackageReference Include="Tinyhand" Version="0.81.4" />
+    <PackageReference Include="ValueLink" Version="0.63.2" />
+    <PackageReference Include="WinUIEx" Version="2.4.0" />
   </ItemGroup>
 
 </Project>

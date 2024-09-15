@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<winex:WindowEx
+    x:Class="Conductor.Presentation.SimpleWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Conductor"
+    xmlns:Arc="using:Arc.WinUI"
+    xmlns:winex="using:WinUIEx"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel x:Name="stackPanel" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock x:Name="textBlock" Height="Auto" TextWrapping="Wrap" Text="{Arc:Stringer Source= App.Name}" Margin="4"/>
+        <TextBlock x:Name="textBlock2" Height="Auto" TextWrapping="Wrap" Text="{Arc:Stringer Source= App.Description}" Margin="4"/>
+        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+        <Button x:Name="myButton2" Click="myButton_Click2">Click Me2</Button>
+        <Button x:Name="openDataDirectory" Command="{x:Bind State.OpenDataDirectoryCommand}">OpenDataDirectory</Button>
+        <Button x:Name="switchLanguage" Command="{x:Bind State.SwitchLanguageCommand}">Switch language</Button>
+    </StackPanel>
+</winex:WindowEx>

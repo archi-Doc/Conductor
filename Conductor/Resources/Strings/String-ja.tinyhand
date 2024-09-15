@@ -1,0 +1,54 @@
+// identifier = "string" /* null: Use the default value. */
+
+// main
+checkbox_copytoclipboard = "生成後にクリップボードにコピーする"
+button_settings = "設定"
+button_generate_string10 = "ランダムな文字列（10）"
+button_generate_guid = "GUID"
+button_generate_hex8 = "16進数（8）"
+
+App = {
+    Name = "Conductor" // Name
+    Description = "説明文"
+    DateTime = "MM/dd H:mm:ss"
+}
+
+Navigation = {
+    Home = "Home"
+    Settings = "設定"
+    Information = "情報"
+    Exit = "終了"
+}
+
+// dialog
+Dialog = 
+{
+    Ok = "O K"
+    Cancel = "キャンセル"
+    Yes = "はい"
+    No = "いいえ"
+    Exit = "終了してもよろしいですか？"
+    Message = "イエス or ノー？"
+}
+
+// settings
+Settings = {
+    DataFolder = "データフォルダ"
+    Open = "開く"
+    Language = "表示言語"
+    DisplayScaling = "表示倍率"
+}
+
+// other
+Language = {
+    En = "英語（English）"
+    Ja = "日本語（Japanese）"
+}
+
+Button = {
+    Text = "Notification message"
+    Settings = "Settings"
+    DataFolder = "DataFolder"
+    AddItem = "Add"
+    ClearItem = "Clear"
+}
