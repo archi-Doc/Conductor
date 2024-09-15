@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.WinUI" Version="0.7.2" />
+    <PackageReference Include="Arc.WinUI" Version="0.8.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
@@ -47,6 +47,12 @@
     <EmbeddedResource Include="Resources\Strings\String-en.tinyhand" />
     <EmbeddedResource Include="Resources\Strings\String-ja.tinyhand" />
     <EmbeddedResource Include="Resources\App.ico" />
+
+    <Resource Include="Resources\Conductor6.ico" />
+    <Resource Include="Resources\Conductor6g.ico" />
+    <Resource Include="Resources\Conductor6o.ico" />
+    <Resource Include="Resources\Conductor6r.ico" />
+    <Resource Include="Resources\Conductor6y.ico" />
   </ItemGroup>
 
   <ItemGroup>

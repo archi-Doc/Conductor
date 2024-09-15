@@ -6,18 +6,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Conductor.Views"
              xmlns:Arc="using:Arc.WinUI"
-             mc:Ignorable="d" FontSize="16"  Loaded="Root_Loaded">
+             xmlns:Converters="using:Arc.WinUI.Converters"
+             mc:Ignorable="d" FontSize="16">
+
     <UserControl.Resources>
-        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
     </UserControl.Resources>
+
     <StackPanel Orientation="Horizontal">
         <TextBlock x:Name="StatusTextBlock" Text="{Binding StatusText}" VerticalAlignment="Center" FontSize="18" Margin="8,4,8,4"/>
-        <TextBox x:Name="HourTextBox" InputMethod.IsInputMethodEnabled="False" Text="{Binding HourText, UpdateSourceTrigger=PropertyChanged}" Width="30" VerticalAlignment="Center" BeforeTextChanging="HourTextBox_BeforeTextChanging" PreviewKeyDown="HourTextBox_PreviewKeyDown" MaxLength="2" Arc:TextBoxAttachment.IsSelectAllOnGotFocus="True" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" PointerWheelChanged="HourTextBox_PreviewMouseWheel" />
-        <TextBlock x:Name="HourTextBlock" Text="{Arc:Stringer hms.hour}" VerticalAlignment="Center" Margin="4,4,8,4"/>
-        <TextBox x:Name="MinuteTextBox" InputMethod.IsInputMethodEnabled="False" Text="{Binding MinuteText, UpdateSourceTrigger=PropertyChanged}" Width="30" VerticalAlignment="Center" BeforeTextChanging="MinuteTextBox_BeforeTextChanging"  PreviewKeyDown="MinuteTextBox_PreviewKeyDown" TextChanged="TextBox_TextChanged_Limit60" MaxLength="2" Arc:TextBoxAttachment.IsSelectAllOnGotFocus="True" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" PointerWheelChanged="MinuteTextBox_PreviewMouseWheel" />
-        <TextBlock x:Name="MinuteTextBlock" Text="{Arc:Stringer hms.minute}" VerticalAlignment="Center" Margin="4,4,8,4"/>
-        <TextBox x:Name="SecondTextBox" InputMethod.IsInputMethodEnabled="False" Text="{Binding SecondText, UpdateSourceTrigger=PropertyChanged}" Width="30" VerticalAlignment="Center" BeforeTextChanging="SecondTextBox_BeforeTextChanging"  PreviewKeyDown="SecondTextBox_PreviewKeyDown" TextChanged="TextBox_TextChanged_Limit60" MaxLength="2" Arc:TextBoxAttachment.IsSelectAllOnGotFocus="True" Visibility="{Binding HideSecondText, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted}"  IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" PointerWheelChanged="SecondTextBox_PreviewMouseWheel" />
-        <TextBlock x:Name="SecondTextBlock" Text="{Arc:Stringer hms.second}" VerticalAlignment="Center" Margin="4,4,8,4"  Visibility="{Binding HideSecondText, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted}"/>
+        <TextBox x:Name="HourTextBox" Text="{Binding HourText, UpdateSourceTrigger=PropertyChanged}" Width="30" VerticalAlignment="Center" BeforeTextChanging="HourTextBox_BeforeTextChanging" MaxLength="2" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" PointerWheelChanged="HourTextBox_PreviewMouseWheel" InputScope="Number" />
+        <TextBlock x:Name="HourTextBlock" Text="{Arc:Stringer Source=hms_hour}" VerticalAlignment="Center" Margin="4,4,8,4"/>
+        <TextBox x:Name="MinuteTextBox" Text="{Binding MinuteText, UpdateSourceTrigger=PropertyChanged}" Width="30" VerticalAlignment="Center" BeforeTextChanging="MinuteTextBox_BeforeTextChanging"  TextChanged="TextBox_TextChanged_Limit60" MaxLength="2" IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" PointerWheelChanged="MinuteTextBox_PreviewMouseWheel" />
+        <TextBlock x:Name="MinuteTextBlock" Text="{Arc:Stringer Source=hms_minute}" VerticalAlignment="Center" Margin="4,4,8,4"/>
+        <TextBox x:Name="SecondTextBox" Text="{Binding SecondText, UpdateSourceTrigger=PropertyChanged}" Width="30" VerticalAlignment="Center" BeforeTextChanging="SecondTextBox_BeforeTextChanging"  TextChanged="TextBox_TextChanged_Limit60" MaxLength="2" Visibility="{Binding HideSecondText, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted}"  IsEnabled="{Binding IsReadOnly, Converter={StaticResource InverseBoolConverter}}" PointerWheelChanged="SecondTextBox_PreviewMouseWheel" />
+        <TextBlock x:Name="SecondTextBlock" Text="{Arc:Stringer Source=hms_second}" VerticalAlignment="Center" Margin="4,4,8,4"  Visibility="{Binding HideSecondText, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted}"/>
     </StackPanel>
 </UserControl>

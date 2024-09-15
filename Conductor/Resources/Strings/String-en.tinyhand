@@ -1,11 +1,30 @@
 // identifier = "string" /* null: Use the default value. */
 
-// main
-checkbox_copytoclipboard = "Copy generated text to clipboard"
+// Hour/Minute/Second
+hms_hour = "hrs."
+hms_minute = "mins."
+hms_second = "secs."
+
+// Taskbar
+taskbar_open = "Open Conductor"
+taskbar_exit = "Exit"
+taskbar_preventscreenoff = "Prevent display off"
+taskbar_preventpc = "Prevent PC sleep"
+
+// Buttons
 button_settings = "Settings"
-button_generate_string10 = "Random characters (10)"
-button_generate_guid = "GUID"
-button_generate_hex8 = "Hexadecimal number（8）"
+button_shutdown = "Shutdown"
+button_clear = "Clear"
+button_sleep = "Sleep"
+button_logoff = "Log off"
+button_abort = "Abort"
+
+checkbox_prevent_shutdown_while_busy = "Wait for shutdown while CPU usage is high."
+
+core_shutdown_remaining = "Shutting down in "
+core_shuttingdown = "Waiting shutdown・・・{0} seconds"
+core_shuttingdown_cpu = "Waiting for shutdown due to high CPU usage（{0:F0} %）"
+core_cpustatus = "CPU Max usage {0:F0} % / Avg. usage {1:F0} %"
 
 App = {
     Name = "Conductor" // Name
@@ -37,6 +56,7 @@ DataFolder = "Data folder"
 Open = "Open"
 Language = "Language"
 DisplayScaling = "Display scaling"
+CloseButton = "Close Button"
 }
 
 // other

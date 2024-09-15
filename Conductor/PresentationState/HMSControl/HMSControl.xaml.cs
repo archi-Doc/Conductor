@@ -2,6 +2,7 @@
 
 using System;
 using System.Windows.Input;
+using Conductor.State;
 using Conductor.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,9 +17,12 @@ public partial class HMSControl : UserControl
     public static readonly DependencyProperty EnterCommandProperty =
         DependencyProperty.Register("EnterCommand", typeof(ICommand), typeof(HMSControl), new PropertyMetadata(null));
 
+    public HMSControlState State { get; }
+
     public HMSControl()
     {
         this.InitializeComponent();
+        this.State = App.GetService<HMSControlState>();
     }
 
     public ICommand EnterCommand
@@ -41,75 +45,6 @@ public partial class HMSControl : UserControl
         }
 
         return true;
-    }
-
-    private void HourTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-    {
-        var vm = this.DataContext as HMSControlState;
-
-        if (e.Key == Key.Up)
-        {
-            e.Handled = true;
-            vm?.UpDown(0, true);
-        }
-        else if (e.Key == Key.Down)
-        {
-            e.Handled = true;
-            vm?.UpDown(0, false);
-        }
-        else if (e.Key == Key.Enter)
-        {
-            e.Handled = true;
-            this.EnterCommand?.Execute(null);
-        }
-
-        return;
-    }
-
-    private void MinuteTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-    {
-        var vm = this.DataContext as HMSControlState;
-
-        if (e.Key == Key.Up)
-        {
-            e.Handled = true;
-            vm?.UpDown(1, true);
-        }
-        else if (e.Key == Key.Down)
-        {
-            e.Handled = true;
-            vm?.UpDown(1, false);
-        }
-        else if (e.Key == Key.Enter)
-        {
-            e.Handled = true;
-            this.EnterCommand?.Execute(null);
-        }
-    }
-
-    private void SecondTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-    {
-        var vm = this.DataContext as HMSControlState;
-
-        if (e.Key == Key.Up)
-        {
-            e.Handled = true;
-            vm?.UpDown(2, true);
-        }
-        else if (e.Key == Key.Down)
-        {
-            e.Handled = true;
-            vm?.UpDown(2, false);
-        }
-        else if (e.Key == Key.Enter)
-        {
-            e.Handled = true;
-            this.EnterCommand?.Execute(null);
-        }
-    }
-
-    private void Root_Loaded(object sender, RoutedEventArgs e)
-    {
     }
 
     private void TextBox_TextChanged_Limit60(object sender, TextChangedEventArgs e)

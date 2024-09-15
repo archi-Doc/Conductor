@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Conductor.Presentation;
 using Conductor.State;
+using Conductor.ViewModels;
 using CrossChannel;
 using SimpleCommandLine;
 
@@ -37,6 +38,8 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
                 context.AddTransient<SettingsState>();
                 context.AddTransient<InformationPage>();
                 context.AddTransient<InformationState>();
+
+                context.AddTransient<HMSControlState>();
 
                 // Command
                 // context.AddCommand(typeof(TestCommand));
