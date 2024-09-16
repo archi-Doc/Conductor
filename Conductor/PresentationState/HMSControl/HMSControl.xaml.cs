@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Input;
 
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Conductor.Views;
+namespace Conductor.Presentation;
 
 public partial class HMSControl : UserControl
 {

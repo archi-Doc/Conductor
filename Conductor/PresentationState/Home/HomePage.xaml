@@ -5,19 +5,50 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Conductor.Presentation"
     xmlns:Arc="using:Arc.WinUI"
+    xmlns:control="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Padding="12">
-        <CheckBox x:Name="toggleCopyToClipboard" Content="{Arc:Stringer Source=checkbox_copytoclipboard}" IsChecked="{x:Bind State.ToggleCopyToClipboard, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+    <control:DockPanel LastChildFill="True">
+        <control:DockPanel control:DockPanel.Dock="Bottom" LastChildFill="True" Margin="4">
+            <Button control:DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:Stringer Source=button.settings}"  Command="{x:Bind CommandMessageId}" CommandParameter="Settings" />
+            <TextBlock x:Name="cpuStatus" FontSize="12" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind CpuStatusText}" />
+        </control:DockPanel>
 
-        <TextBox x:Name="textBox1" Height="30" TextWrapping="Wrap" Text="{x:Bind State.ResultTextValue, Mode=TwoWay}" VerticalAlignment="Top" Margin="4" IsReadOnly="True"/>
+        <StackPanel Margin="6">
 
-        <Button x:Name="button10" Margin="4" Content="{Arc:Stringer Source=button_generate_string10}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" Command="{x:Bind State.GenerateCommand}" CommandParameter="String10"/>
-        <Button x:Name="buttonGuid" Margin="4" Content="{Arc:Stringer Source=button_generate_guid}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" Command="{x:Bind State.GenerateCommand}" CommandParameter="Guid"/>
-        <Button x:Name="buttonHex8" Margin="4" Content="{Arc:Stringer Source=button_generate_hex8}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="auto" Height="auto" Command="{x:Bind State.GenerateCommand}" CommandParameter="Hex8"/>
+            <!--<tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{x:Bind IconSource}" ToolTipText="{Arc:Stringer Source=app.name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind CommandMessageId}" LeftClickCommandParameter="ActivateWindow">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{Arc:Stringer Source=taskbar.open}" Command="{x:Bind CommandMessageId}" CommandParameter="ActivateWindow"/>
+                        <Separator />
+                        <MenuItem Header="{Arc:Stringer Source=taskbar.preventpc}" Command="{x:Bind TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind TogglePreventSleep}" />
+                        <MenuItem Header="{Arc:Stringer Source=taskbar.preventscreenoff}" Command="{x:Bind TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind TogglePreventScreenOff}"/>
+                        <Separator />
+                        <MenuItem Header="{Arc:Stringer Source=taskbar.exit}" Command="{x:Bind TaskbarCommandExit}"/>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon>-->
 
-    </StackPanel>
+            <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.ConductorText}" />
+
+            <control:WrapPanel control:DockPanel.Dock="Right" Orientation="Horizontal">
+                <local:HMSControl DataContext="{x:Bind Path=State.ShutdownHMS}" EnterCommand="{x:Bind DataContext.CommandShutdown, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                <Button x:Name="buttonShutdown" Content="{Arc:Stringer Source=button.shutdown}"  Command="{x:Bind State.CommandShutdown}" Visibility="{x:Bind Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button x:Name="buttonClear" Content="{Arc:Stringer Source=button.clear}"  Command="{x:Bind State.CommandClear}" Visibility="{x:Bind Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button.abort}"  Command="{x:Bind State.CommandAbort}" Visibility="{x:Bind Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </control:WrapPanel>
+
+            <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox.prevent.shutdown.while.busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy}" HorizontalAlignment="Left" Margin="6,10,6,6" />
+
+            <StackPanel Margin="0,4,0,4">
+                <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar.preventpc}" IsChecked="{x:Bind State.TogglePreventSleep}" HorizontalAlignment="Left" />
+                <CheckBox x:Name="togglePreventScreen" Content="{Arc:Stringer Source=taskbar.preventscreenoff}" IsChecked="{x:Bind State.TogglePreventScreenOff}" HorizontalAlignment="Left" />
+            </StackPanel>
+
+            <TextBlock x:Name="textDebug" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.DebugText}" />
+        </StackPanel>
+    </control:DockPanel>
 
 </Page>
