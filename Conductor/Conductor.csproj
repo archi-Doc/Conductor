@@ -64,6 +64,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
     <PackageReference Include="Tinyhand" Version="0.81.4" />
     <PackageReference Include="ValueLink" Version="0.63.2" />
     <PackageReference Include="WinUIEx" Version="2.4.0" />
