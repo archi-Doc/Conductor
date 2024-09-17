@@ -1,18 +1,17 @@
 // identifier = "string" /* null: Use the default value. */
 
 // Hour/Minute/Second
-hms_hour = "hrs."
-hms_minute = "mins."
-hms_second = "secs."
+hms_hour = "hr"
+hms_minute = "min"
+hms_second = "sec"
 
 // Taskbar
 taskbar_open = "Open Conductor"
 taskbar_exit = "Exit"
-taskbar_preventscreenoff = "Prevent display off"
-taskbar_preventpc = "Prevent PC sleep"
+taskbar_preventscreenoff = "Prevent Windows from entering sleep mode"
+taskbar_preventpc = "Prevent the display from turning off"
 
 // Buttons
-button_settings = "Settings"
 button_shutdown = "Shutdown"
 button_clear = "Clear"
 button_sleep = "Sleep"

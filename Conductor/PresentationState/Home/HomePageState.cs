@@ -6,8 +6,6 @@ using Arc.WinUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Conductor.Presentation;
-using Tinyhand.Tree;
-using WinUIEx.Messaging;
 
 namespace Conductor.State;
 
@@ -15,12 +13,10 @@ public partial class HomePageState : ObservableObject
 {
     private readonly ConductorCore core;
     private readonly IBasicPresentationService simpleWindowService;
+    private readonly Timer timer;
 
     [ObservableProperty]
     private string resultTextValue = string.Empty;
-
-    [ObservableProperty]
-    private bool toggleCopyToClipboard;
 
     [ObservableProperty]
     private string iconPath = string.Empty;
@@ -34,13 +30,10 @@ public partial class HomePageState : ObservableObject
     [ObservableProperty]
     private HMSControlState shutdownHMS = new HMSControlState();
 
-    private Timer timer;
-
     public HomePageState(ConductorCore core, IBasicPresentationService simpleWindowService)
     {
         this.core = core;
         this.simpleWindowService = simpleWindowService;
-        this.ToggleCopyToClipboard = true;
         this.TogglePreventShutdownWhileBusy = App.Settings.TogglePreventShutdownWhileBusy;
 
         this.SetNotifyIcon();
@@ -53,12 +46,7 @@ public partial class HomePageState : ObservableObject
         this.timer.Start();
     }
 
-    [RelayCommand]
-    private void Generate(string param)
-    {
-    }
-
-    [RelayCommand(CanExecute = nameof(ActiveShutdown))]
+    [RelayCommand(CanExecute = nameof(CanShutdown))]
     private void Shutdown()
     {
         if (this.ShutdownHMS.Hour == 0 && this.ShutdownHMS.Minute == 0 && this.ShutdownHMS.Second == 0)
@@ -80,7 +68,7 @@ public partial class HomePageState : ObservableObject
 
     private bool CanExecuteClear()
     {
-        return !this.ActiveShutdown &&
+        return !this.CanShutdown &&
             (this.ShutdownHMS.HourText != string.Empty ||
             this.ShutdownHMS.MinuteText != string.Empty ||
             this.ShutdownHMS.SecondText != string.Empty);
@@ -93,17 +81,17 @@ public partial class HomePageState : ObservableObject
                 {
                     this.ShutdownHMS.Clear();
                 },
-                () => !this.ActiveShutdown &&
+                () => !this.CanShutdown &&
                 (this.ShutdownHMS.HourText != string.Empty ||
                 this.ShutdownHMS.MinuteText != string.Empty ||
                 this.ShutdownHMS.SecondText != string.Empty))
-            .ObservesProperty(() => this.ActiveShutdown)
+            .ObservesProperty(() => this.CanShutdown)
             .ObservesProperty(() => this.ShutdownHMS.HourText)
             .ObservesProperty(() => this.ShutdownHMS.MinuteText)
             .ObservesProperty(() => this.ShutdownHMS.SecondText);
     }*/
 
-    [RelayCommand(CanExecute = nameof(ActiveShutdown))]
+    [RelayCommand(CanExecute = nameof(CanShutdown))]
     private void Abort()
     {
         this.core.AbortShutdown();
@@ -144,7 +132,7 @@ public partial class HomePageState : ObservableObject
     }
 
     [ObservableProperty]
-    private bool togglePreventScreenOff = true;
+    private bool togglePreventScreenOff;
 
     partial void OnTogglePreventScreenOffChanged(bool value)
     {
@@ -163,27 +151,12 @@ public partial class HomePageState : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ShutdownCommand))]
-    private bool activeShutdown;
+    private bool canShutdown;
 
-    partial void OnActiveShutdownChanged(bool value)
+    partial void OnCanShutdownChanged(bool value)
     {
         this.SetNotifyIcon();
     }
-
-    /*public bool ActiveShutdown
-    {
-        get => this.activeShutdown;
-        set
-        {
-            if (this.activeShutdown == value)
-            {
-                return;
-            }
-
-            this.SetProperty(ref this.activeShutdown, value);
-            this.SetNotifyIcon();
-        }
-    }*/
 
     [RelayCommand]
     private void MessageId(string param)
@@ -212,9 +185,9 @@ public partial class HomePageState : ObservableObject
                 this.core.Status.Update();
             }
 
-            this.ShutdownHMS.IsReadOnly = this.core.Status.ActiveShutdown;
+            this.ShutdownHMS.IsReadOnly = this.core.Status.CanShutdown;
             this.ShutdownHMS.StatusText = this.core.Status.ShutdownStatusText;
-            if (this.core.Status.ActiveShutdown)
+            if (this.core.Status.CanShutdown)
             {
                 if (this.core.Status.ShutdownProcess == false)
                 {
@@ -241,7 +214,7 @@ public partial class HomePageState : ObservableObject
 
             this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), this.core.Cpu.GetMaxAverage(), this.core.Cpu.GetAverage());
 
-            this.ActiveShutdown = this.core.Status.ActiveShutdown;
+            this.CanShutdown = this.core.Status.CanShutdown;
         });
     }
 

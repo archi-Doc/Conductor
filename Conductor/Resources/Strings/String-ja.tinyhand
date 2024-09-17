@@ -1,11 +1,29 @@
 // identifier = "string" /* null: Use the default value. */
 
-// main
-checkbox_copytoclipboard = "生成後にクリップボードにコピーする"
-button_settings = "設定"
-button_generate_string10 = "ランダムな文字列（10）"
-button_generate_guid = "GUID"
-button_generate_hex8 = "16進数（8）"
+// Hour/Minute/Second
+hms_hour = "時間"
+hms_minute = "分"
+hms_second = "秒"
+
+// Taskbar
+taskbar_open = "Conductorを開く"
+taskbar_exit = "終了"
+taskbar_preventscreenoff = "Windowsスリープモードを抑制する"
+taskbar_preventpc = "モニターの電源オフを抑制する"
+
+// Buttons
+button_shutdown = "シャットダウン"
+button_clear = "クリア"
+button_sleep = "Sleep"
+button_logoff = "Log off"
+button_abort = "Abort"
+
+checkbox_prevent_shutdown_while_busy = "Wait for shutdown while CPU usage is high."
+
+core_shutdown_remaining = "Shutting down in "
+core_shuttingdown = "Waiting shutdown・・・{0} seconds"
+core_shuttingdown_cpu = "Waiting for shutdown due to high CPU usage（{0:F0} %）"
+core_cpustatus = "CPU Max usage {0:F0} % / Avg. usage {1:F0} %"
 
 App = {
     Name = "Conductor" // Name
@@ -37,6 +55,7 @@ Settings = {
     Open = "開く"
     Language = "表示言語"
     DisplayScaling = "表示倍率"
+    CloseButton = "Close Button"
 }
 
 // other
