@@ -6,30 +6,31 @@
     xmlns:local="using:Conductor.Presentation"
     xmlns:Arc="using:Arc.WinUI"
     xmlns:control="using:CommunityToolkit.WinUI.Controls"
+    xmlns:tb="using:H.NotifyIcon"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <control:DockPanel LastChildFill="True">
         <control:DockPanel control:DockPanel.Dock="Bottom" LastChildFill="True" Margin="4">
-            <Button control:DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:Stringer Source=button.settings}"  Command="{x:Bind CommandMessageId}" CommandParameter="Settings" />
-            <TextBlock x:Name="cpuStatus" FontSize="12" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind CpuStatusText}" />
+            <Button control:DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:Stringer Source=button.settings}"  Command="{x:Bind State.MessageIdCommand}" CommandParameter="Settings" />
+            <TextBlock x:Name="cpuStatus" FontSize="12" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.CpuStatusText}" />
         </control:DockPanel>
 
         <StackPanel Margin="6">
 
-            <!--<tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{x:Bind IconSource}" ToolTipText="{Arc:Stringer Source=app.name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind CommandMessageId}" LeftClickCommandParameter="ActivateWindow">
-                <tb:TaskbarIcon.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="{Arc:Stringer Source=taskbar.open}" Command="{x:Bind CommandMessageId}" CommandParameter="ActivateWindow"/>
-                        <Separator />
-                        <MenuItem Header="{Arc:Stringer Source=taskbar.preventpc}" Command="{x:Bind TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind TogglePreventSleep}" />
-                        <MenuItem Header="{Arc:Stringer Source=taskbar.preventscreenoff}" Command="{x:Bind TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind TogglePreventScreenOff}"/>
-                        <Separator />
-                        <MenuItem Header="{Arc:Stringer Source=taskbar.exit}" Command="{x:Bind TaskbarCommandExit}"/>
-                    </ContextMenu>
-                </tb:TaskbarIcon.ContextMenu>
-            </tb:TaskbarIcon>-->
+            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{x:Bind State.IconSource}" ToolTipText="{Arc:Stringer Source=app.name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.MessageIdCommand}" LeftClickCommandParameter="ActivateWindow">
+                <tb:TaskbarIcon.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar.open}" Command="{x:Bind State.MessageIdCommand}" CommandParameter="ActivateWindow"/>
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar.preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep}" />
+                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar.preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff}"/>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar.exit}" Command="{x:Bind State.TaskbarExitCommand}"/>
+                    </MenuFlyout>
+                </tb:TaskbarIcon.ContextFlyout>
+            </tb:TaskbarIcon>
 
             <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.ConductorText}" />
 
