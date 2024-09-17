@@ -116,6 +116,8 @@ public static partial class App
     /// </summary>
     public static AppOptions Options { get; private set; } = default!;
 
+    public static ConductorCore Core { get; private set; } = default!;
+
     public static bool IsUiThread => uiDispatcherQueue.HasThreadAccess;
 
     private static Mutex? appMutex = string.IsNullOrEmpty(MutexName) ? default : new(false, MutexName);

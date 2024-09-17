@@ -6,6 +6,8 @@ using Arc.WinUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Conductor.Presentation;
+using Tinyhand.Tree;
+using WinUIEx.Messaging;
 
 namespace Conductor.State;
 
@@ -19,60 +21,39 @@ public partial class HomePageState : ObservableObject
     [ObservableProperty]
     private bool toggleCopyToClipboard;
 
+    [ObservableProperty]
+    private string iconSource = string.Empty;
+
+    [ObservableProperty]
+    private string conductorText = string.Empty;
+
+    [ObservableProperty]
+    private string cpuStatusText = string.Empty;
+
+    [ObservableProperty]
+    private HMSControlState shutdownHMS = new HMSControlState();
+
+    private Timer timer;
+
     public HomePageState(IBasicPresentationService simpleWindowService)
     {
         this.simpleWindowService = simpleWindowService;
         this.ToggleCopyToClipboard = true;
-    }
+        this.TogglePreventShutdownWhileBusy = App.Settings.TogglePreventShutdownWhileBusy;
 
-    public void StoreState()
-    {
+        this.SetNotifyIcon();
+
+        this.timer = new Timer(1000); // 1 second
+        this.timer.Elapsed += (sender, e) =>
+        {
+            this.Timer(e);
+        };
+        this.timer.Start();
     }
 
     [RelayCommand]
     private void Generate(string param)
     {
-    }
-
-    private Timer timer;
-
-    private string iconSource = string.Empty;
-
-    public string IconSource
-    {
-        get => this.iconSource;
-        set => this.SetProperty(ref this.iconSource, value);
-    }
-
-    private string conductorText = string.Empty;
-
-    public string ConductorText
-    {
-        get => this.conductorText;
-        set => this.SetProperty(ref this.conductorText, value);
-    }
-
-    private string cpuStatusText = string.Empty;
-
-    public string CpuStatusText
-    {
-        get => this.cpuStatusText;
-        set => this.SetProperty(ref this.cpuStatusText, value);
-    }
-
-    private HMSControlState shutdownHMS = new HMSControlState();
-
-    public HMSControlState ShutdownHMS
-    {
-        get
-        {
-            return this.shutdownHMS;
-        }
-
-        set
-        {
-            this.SetProperty(ref this.shutdownHMS, value);
-        }
     }
 
     [RelayCommand(CanExecute = nameof(ActiveShutdown))]
@@ -89,12 +70,19 @@ public partial class HomePageState : ObservableObject
         this.UpdateStatus(true);
     }
 
-    [RelayCommand(CanExecute =)]
+    [RelayCommand(CanExecute = nameof(CanExecuteClear))]
     private void Clear()
     {
         this.ShutdownHMS.Clear();
     }
 
+    private bool CanExecuteClear()
+    {
+        return !this.ActiveShutdown &&
+            (this.ShutdownHMS.HourText != string.Empty ||
+            this.ShutdownHMS.MinuteText != string.Empty ||
+            this.ShutdownHMS.SecondText != string.Empty);
+    }
 
     /*public DelegateCommand CommandClear
     {
@@ -122,35 +110,24 @@ public partial class HomePageState : ObservableObject
 
     private ICommand? taskbarCommand;
 
-    public ICommand TaskbarCommand
+    [RelayCommand]
+    private void Taskbar(TaskbarCommandId id)
     {
-        get => this.taskbarCommand ??= new DelegateCommand<string>(
-                (param) =>
-                { // execute
-                    var id = (TaskbarCommandId)Enum.Parse(typeof(TaskbarCommandId), param!);
-                    if (id == TaskbarCommandId.TogglePreventScreenOff)
-                    {
-                        this.TogglePreventScreenOff = !this.TogglePreventScreenOff;
-                    }
-                    else if (id == TaskbarCommandId.TogglePreventSleep)
-                    {
-                        this.TogglePreventSleep = !this.TogglePreventSleep;
-                    }
-                });
+        // var id = (TaskbarCommandId)Enum.Parse(typeof(TaskbarCommandId), param!);
+        if (id == TaskbarCommandId.TogglePreventScreenOff)
+        {
+            this.TogglePreventScreenOff = !this.TogglePreventScreenOff;
+        }
+        else if (id == TaskbarCommandId.TogglePreventSleep)
+        {
+            this.TogglePreventSleep = !this.TogglePreventSleep;
+        }
     }
 
-    private ICommand? taskbarCommandExit;
-
-    public ICommand TaskbarCommandExit
+    [RelayCommand]
+    private void TaskbarExit()
     {
-        get
-        {
-            return (this.taskbarCommandExit != null) ? this.taskbarCommandExit : this.taskbarCommandExit = new DelegateCommand(
-                () =>
-                { // execute
-                    this.ViewService.MessageID(MessageId.ExitWithoutConfirmation);
-                });
-        }
+        // this.ViewService.MessageID(MessageId.ExitWithoutConfirmation);
     }
 
     private bool togglePreventSleep;
@@ -179,17 +156,13 @@ public partial class HomePageState : ObservableObject
         }
     }
 
+    [ObservableProperty]
     private bool togglePreventShutdownWhileBusy;
 
-    public bool TogglePreventShutdownWhileBusy
+    partial void OnTogglePreventShutdownWhileBusyChanged(bool newValue)
     {
-        get => this.togglePreventShutdownWhileBusy;
-        set
-        {
-            this.SetProperty(ref this.togglePreventShutdownWhileBusy, value);
-            App.Core.PreventShutdownWhileBusy = value;
-            App.Settings.TogglePreventShutdownWhileBusy = value;
-        }
+        App.Core.PreventShutdownWhileBusy = value;
+        App.Settings.TogglePreventShutdownWhileBusy = value;
     }
 
     [ObservableProperty]
@@ -216,33 +189,11 @@ public partial class HomePageState : ObservableObject
         }
     }*/
 
-    private ICommand? commandMessageId;
-
-    public ICommand CommandMessageId
+    [RelayCommand]
+    private void MessageId(string id)
     {
-        get
-        {
-            return (this.commandMessageId != null) ? this.commandMessageId : this.commandMessageId = new DelegateCommand<string>(
-                (param) =>
-                { // execute
-                    var id = (MessageId)Enum.Parse(typeof(MessageId), param!);
-                    this.ViewService.MessageID(id);
-                });
-        }
-    }
-
-    public MainViewModel()
-    {
-        this.TogglePreventShutdownWhileBusy = App.Settings.TogglePreventShutdownWhileBusy;
-
-        this.SetNotifyIcon();
-
-        this.timer = new Timer(1000); // 1 second
-        this.timer.Elapsed += (sender, e) =>
-        {
-            this.Timer(e);
-        };
-        this.timer.Start();
+        // var id = (MessageId)Enum.Parse(typeof(MessageId), param!);
+        // this.ViewService.MessageID(id);
     }
 
     public void Timer(ElapsedEventArgs elapsedEventArgs)
@@ -264,20 +215,20 @@ public partial class HomePageState : ObservableObject
         {
             if (App.Core.Status.ShutdownProcess == false)
             {
-                this.ConductorText = C4.Instance["core.shutdown.remaining"];
+                this.ConductorText = HashedString.Get("core_shutdown_remaining");
                 this.ShutdownHMS.Hour = App.Core.Status.ShutdownHours;
                 this.ShutdownHMS.Minute = App.Core.Status.ShutdownMinutes;
                 this.ShutdownHMS.Second = App.Core.Status.ShutdownSeconds;
             }
             else
             {
-                this.ConductorText = string.Format(C4.Instance["core.shuttingdown"], App.Core.Status.ShutdownTotalSeconds);
+                this.ConductorText = string.Format(HashedString.Get("core_shuttingdown"), App.Core.Status.ShutdownTotalSeconds);
                 this.ShutdownHMS.Second = 0;
             }
 
             if (App.Core.Status.ShutdownPending_CpuUsage != 0)
             {
-                this.ConductorText = string.Format(C4.Instance["core.shuttingdown.cpu"], App.Core.Status.ShutdownPending_CpuUsage);
+                this.ConductorText = string.Format(HashedString.Get("core_shuttingdown_cpu"), App.Core.Status.ShutdownPending_CpuUsage);
             }
         }
         else
@@ -285,7 +236,7 @@ public partial class HomePageState : ObservableObject
             this.ConductorText = string.Empty;
         }
 
-        this.CpuStatusText = string.Format(App.C4["core.cpustatus"], App.Core.Cpu.GetMaxAverage(), App.Core.Cpu.GetAverage());
+        this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), App.Core.Cpu.GetMaxAverage(), App.Core.Cpu.GetAverage());
 
         // this.DebugText = App.Core.Cpu.GetMaxAverage().ToString();
 
@@ -313,5 +264,4 @@ public partial class HomePageState : ObservableObject
 
         this.IconSource = icon;
     }
-}
 }
