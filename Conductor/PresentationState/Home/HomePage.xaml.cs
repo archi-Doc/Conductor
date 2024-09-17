@@ -2,6 +2,7 @@
 
 using Conductor.State;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace Conductor.Presentation;
@@ -14,6 +15,7 @@ public sealed partial class HomePage : Page
     {
         this.InitializeComponent();
         this.State = App.GetService<HomePageState>();
+        this.DataContext = this.State; // Set the DataContext when using Binding.
     }
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)

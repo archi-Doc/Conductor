@@ -7,27 +7,32 @@
     xmlns:Arc="using:Arc.WinUI"
     xmlns:control="using:CommunityToolkit.WinUI.Controls"
     xmlns:tb="using:H.NotifyIcon"
+    xmlns:Converters="using:Arc.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+
     <control:DockPanel LastChildFill="True">
         <control:DockPanel control:DockPanel.Dock="Bottom" LastChildFill="True" Margin="4">
-            <Button control:DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:Stringer Source=button.settings}"  Command="{x:Bind State.MessageIdCommand}" CommandParameter="Settings" />
+            <Button control:DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:Stringer Source=button_settings}"  Command="{x:Bind State.MessageIdCommand}" CommandParameter="Settings" />
             <TextBlock x:Name="cpuStatus" FontSize="12" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.CpuStatusText}" />
         </control:DockPanel>
 
         <StackPanel Margin="6">
 
-            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{x:Bind State.IconSource}" ToolTipText="{Arc:Stringer Source=app.name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.MessageIdCommand}" LeftClickCommandParameter="ActivateWindow">
+            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{Binding IconPath}" ToolTipText="{Arc:Stringer Source=App.Name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.MessageIdCommand}" LeftClickCommandParameter="ActivateWindow">
                 <tb:TaskbarIcon.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar.open}" Command="{x:Bind State.MessageIdCommand}" CommandParameter="ActivateWindow"/>
+                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_open}" Command="{x:Bind State.MessageIdCommand}" CommandParameter="ActivateWindow"/>
                         <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar.preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep}" />
-                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar.preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff}"/>
+                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep}" />
+                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff}"/>
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar.exit}" Command="{x:Bind State.TaskbarExitCommand}"/>
+                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_exit}" Command="{x:Bind State.TaskbarExitCommand}"/>
                     </MenuFlyout>
                 </tb:TaskbarIcon.ContextFlyout>
             </tb:TaskbarIcon>
@@ -35,17 +40,17 @@
             <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.ConductorText}" />
 
             <control:WrapPanel control:DockPanel.Dock="Right" Orientation="Horizontal">
-                <local:HMSControl DataContext="{x:Bind Path=State.ShutdownHMS}" EnterCommand="{x:Bind DataContext.CommandShutdown, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
-                <Button x:Name="buttonShutdown" Content="{Arc:Stringer Source=button.shutdown}"  Command="{x:Bind State.ShutdownCommand}" Visibility="{x:Bind Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <Button x:Name="buttonClear" Content="{Arc:Stringer Source=button.clear}"  Command="{x:Bind State.ClearCommand}" Visibility="{x:Bind Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button.abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{x:Bind Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <local:HMSControl DataContext="{x:Bind Path=State.ShutdownHMS}" EnterCommand="{x:Bind State.ShutdownCommand}"/>
+                <Button x:Name="buttonShutdown" Content="{Arc:Stringer Source=button_shutdown}"  Command="{x:Bind State.ShutdownCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button x:Name="buttonClear" Content="{Arc:Stringer Source=button_clear}"  Command="{x:Bind State.ClearCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button_abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             </control:WrapPanel>
 
-            <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox.prevent.shutdown.while.busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy}" HorizontalAlignment="Left" Margin="6,10,6,6" />
+            <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox_prevent_shutdown_while_busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy}" HorizontalAlignment="Left" Margin="6,10,6,6" />
 
             <StackPanel Margin="0,4,0,4">
-                <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar.preventpc}" IsChecked="{x:Bind State.TogglePreventSleep}" HorizontalAlignment="Left" />
-                <CheckBox x:Name="togglePreventScreen" Content="{Arc:Stringer Source=taskbar.preventscreenoff}" IsChecked="{x:Bind State.TogglePreventScreenOff}" HorizontalAlignment="Left" />
+                <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar_preventpc}" IsChecked="{x:Bind State.TogglePreventSleep, Mode=TwoWay}" HorizontalAlignment="Left" />
+                <CheckBox x:Name="togglePreventScreen" Content="{Arc:Stringer Source=taskbar_preventscreenoff}" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=TwoWay}" HorizontalAlignment="Left" />
             </StackPanel>
         </StackPanel>
     </control:DockPanel>

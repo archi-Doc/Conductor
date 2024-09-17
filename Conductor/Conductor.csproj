@@ -50,11 +50,11 @@
     <EmbeddedResource Include="Resources\Strings\String-ja.tinyhand" />
     <EmbeddedResource Include="Resources\App.ico" />
 
-    <Resource Include="Resources\Conductor6.ico" />
-    <Resource Include="Resources\Conductor6g.ico" />
-    <Resource Include="Resources\Conductor6o.ico" />
-    <Resource Include="Resources\Conductor6r.ico" />
-    <Resource Include="Resources\Conductor6y.ico" />
+    <Content Include="Resources\Conductor6.ico" />
+    <Content Include="Resources\Conductor6g.ico" />
+    <Content Include="Resources\Conductor6o.ico" />
+    <Content Include="Resources\Conductor6r.ico" />
+    <Content Include="Resources\Conductor6y.ico" />
   </ItemGroup>
 
   <ItemGroup>

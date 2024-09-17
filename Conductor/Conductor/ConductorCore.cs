@@ -111,8 +111,6 @@ public class ConductorTask
 
 public class ConductorCore
 {
-    private object cs = new object();
-
     public ConductorCore(ILogger<ConductorCore> logger)
     {
         this.logger = logger;
@@ -136,6 +134,7 @@ public class ConductorCore
 
     public ConductorStatus Status { get; }
 
+    private readonly object cs = new();
     private readonly ILogger logger;
 
     public void Shutdown(int hour, int minute, int second)
@@ -228,7 +227,7 @@ public class ConductorCore
                 }
 
                 Arc.WinAPI.Methods.SetThreadExecutionState(Arc.WinAPI.EXECUTION_STATE.ES_DISPLAY_REQUIRED);
-                App.GetService<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ActivateWindowForce);
+                //App.GetService<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ActivateWindowForce);
 
                 if (this.ShutdownTask == null || this.ShutdownTask.Type != ConductorTaskType.ShutdownProcess)
                 {
@@ -251,12 +250,12 @@ public class ConductorCore
 
                 this.logger.TryGet()?.Log("Shutdown process.");
 
-                Radio.Send(Message_Save.Prepare);
-                Radio.Send(Message_Save.Save);
+                //Radio.Send(Message_Save.Prepare);
+                //Radio.Send(Message_Save.Save);
 
                 Arc.WinAPI.Methods.AdjustToken();
                 Arc.WinAPI.Methods.ExitWindowsEx(Arc.WinAPI.ExitWindows.EWX_POWEROFF, 0);
-                App.Resolve<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ExitWithoutConfirmation);
+                //App.Resolve<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ExitWithoutConfirmation);
 
                 this.ShutdownTask = null;
             }
