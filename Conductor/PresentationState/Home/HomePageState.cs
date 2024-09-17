@@ -159,7 +159,7 @@ public partial class HomePageState : ObservableObject
     [ObservableProperty]
     private bool togglePreventShutdownWhileBusy;
 
-    partial void OnTogglePreventShutdownWhileBusyChanged(bool newValue)
+    partial void OnTogglePreventShutdownWhileBusyChanged(bool value)
     {
         App.Core.PreventShutdownWhileBusy = value;
         App.Settings.TogglePreventShutdownWhileBusy = value;
@@ -196,7 +196,7 @@ public partial class HomePageState : ObservableObject
         // this.ViewService.MessageID(id);
     }
 
-    public void Timer(ElapsedEventArgs elapsedEventArgs)
+    private void Timer(ElapsedEventArgs elapsedEventArgs)
     {
         App.Core.ProcessEverySecond();
         this.UpdateStatus(false);
@@ -237,8 +237,6 @@ public partial class HomePageState : ObservableObject
         }
 
         this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), App.Core.Cpu.GetMaxAverage(), App.Core.Cpu.GetAverage());
-
-        // this.DebugText = App.Core.Cpu.GetMaxAverage().ToString();
 
         this.ActiveShutdown = App.Core.Status.ActiveShutdown;
     }
