@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Conductor.Presentation;
 using Conductor.State;
-using Conductor.ViewModels;
 using CrossChannel;
 using SimpleCommandLine;
 

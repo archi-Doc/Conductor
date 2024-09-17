@@ -1,7 +1,5 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
 using Arc.WinUI;
@@ -77,35 +75,28 @@ public partial class HomePageState : ObservableObject
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(ActiveShutdown))]
     private void Shutdown()
     {
+        if (this.ShutdownHMS.Hour == 0 && this.ShutdownHMS.Minute == 0 && this.ShutdownHMS.Second == 0)
+        {
+            return;
+        }
 
+        App.Core.Shutdown(this.ShutdownHMS.Hour, this.ShutdownHMS.Minute, this.ShutdownHMS.Second);
+        this.timer.Stop();
+        this.timer.Start();
+        this.UpdateStatus(true);
     }
 
-    private DelegateCommand? commandShutdown;
-
-    public DelegateCommand CommandShutdown
+    [RelayCommand(CanExecute =)]
+    private void Clear()
     {
-        get => this.commandShutdown ??= new DelegateCommand(
-                () =>
-                {
-                    if (this.ShutdownHMS.Hour == 0 && this.ShutdownHMS.Minute == 0 && this.ShutdownHMS.Second == 0)
-                    {
-                        return;
-                    }
-
-                    App.Core.Shutdown(this.ShutdownHMS.Hour, this.ShutdownHMS.Minute, this.ShutdownHMS.Second);
-                    this.timer.Stop();
-                    this.timer.Start();
-                    this.UpdateStatus(true);
-                },
-                () => !this.ActiveShutdown).ObservesProperty(() => this.ActiveShutdown);
+        this.ShutdownHMS.Clear();
     }
 
-    private DelegateCommand? commandClear;
 
-    public DelegateCommand CommandClear
+    /*public DelegateCommand CommandClear
     {
         get => this.commandClear ??= new DelegateCommand(
                 () =>
@@ -120,19 +111,13 @@ public partial class HomePageState : ObservableObject
             .ObservesProperty(() => this.ShutdownHMS.HourText)
             .ObservesProperty(() => this.ShutdownHMS.MinuteText)
             .ObservesProperty(() => this.ShutdownHMS.SecondText);
-    }
+    }*/
 
-    private DelegateCommand? commandAbort;
-
-    public DelegateCommand CommandAbort
+    [RelayCommand(CanExecute = nameof(ActiveShutdown))]
+    private void Abort()
     {
-        get => this.commandAbort ??= new DelegateCommand(
-                () =>
-                {
-                    App.Core.AbortShutdown();
-                    this.UpdateStatus(true);
-                },
-                () => this.ActiveShutdown).ObservesProperty(() => this.ActiveShutdown);
+        App.Core.AbortShutdown();
+        this.UpdateStatus(true);
     }
 
     private ICommand? taskbarCommand;
@@ -207,9 +192,16 @@ public partial class HomePageState : ObservableObject
         }
     }
 
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(ShutdownCommand))]
     private bool activeShutdown;
 
-    public bool ActiveShutdown
+    partial void OnActiveShutdownChanged(bool value)
+    {
+        this.SetNotifyIcon();
+    }
+
+    /*public bool ActiveShutdown
     {
         get => this.activeShutdown;
         set
@@ -222,7 +214,7 @@ public partial class HomePageState : ObservableObject
             this.SetProperty(ref this.activeShutdown, value);
             this.SetNotifyIcon();
         }
-    }
+    }*/
 
     private ICommand? commandMessageId;
 

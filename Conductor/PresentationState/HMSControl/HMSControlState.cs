@@ -3,7 +3,7 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Conductor.ViewModels;
+namespace Conductor.State;
 
 public class HMSControlState : ObservableObject
 { // Hour/Minute/Second
