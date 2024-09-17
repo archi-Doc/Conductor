@@ -212,11 +212,27 @@ public static partial class App
     }
 
     /// <summary>
-    /// Executes an action on the UI thread.
+    /// Tries to enqueue a task on the UI thread.
     /// </summary>
-    /// <param name="callback">The action that will be executed on the UI thread.</param>
+    /// <param name="callback">The callback to enqueue.</param>
     public static void TryEnqueueOnUI(DispatcherQueueHandler callback)
         => uiDispatcherQueue.TryEnqueue(callback);
+
+    /// <summary>
+    /// Executes or enqueue a task on the UI thread.
+    /// </summary>
+    /// <param name="callback">The action that will be executed on the UI thread.</param>
+    public static void ExecuteOrEnqueueOnUI(DispatcherQueueHandler callback)
+    {
+        if (uiDispatcherQueue.HasThreadAccess)
+        {
+            callback.Invoke();
+        }
+        else
+        {
+            uiDispatcherQueue.TryEnqueue(callback);
+        }
+    }
 
     [LibraryImport("Microsoft.ui.xaml.dll")]
     private static partial void XamlCheckProcessRequirements();

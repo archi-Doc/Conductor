@@ -205,41 +205,44 @@ public partial class HomePageState : ObservableObject
 
     private void UpdateStatus(bool update)
     {
-        if (update)
+        App.ExecuteOrEnqueueOnUI(() =>
         {
-            this.core.Status.Update();
-        }
-
-        this.ShutdownHMS.IsReadOnly = this.core.Status.ActiveShutdown;
-        this.ShutdownHMS.StatusText = this.core.Status.ShutdownStatusText;
-        if (this.core.Status.ActiveShutdown)
-        {
-            if (this.core.Status.ShutdownProcess == false)
+            if (update)
             {
-                this.ConductorText = HashedString.Get("core_shutdown_remaining");
-                this.ShutdownHMS.Hour = this.core.Status.ShutdownHours;
-                this.ShutdownHMS.Minute = this.core.Status.ShutdownMinutes;
-                this.ShutdownHMS.Second = this.core.Status.ShutdownSeconds;
+                this.core.Status.Update();
+            }
+
+            this.ShutdownHMS.IsReadOnly = this.core.Status.ActiveShutdown;
+            this.ShutdownHMS.StatusText = this.core.Status.ShutdownStatusText;
+            if (this.core.Status.ActiveShutdown)
+            {
+                if (this.core.Status.ShutdownProcess == false)
+                {
+                    this.ConductorText = HashedString.Get("core_shutdown_remaining");
+                    this.ShutdownHMS.Hour = this.core.Status.ShutdownHours;
+                    this.ShutdownHMS.Minute = this.core.Status.ShutdownMinutes;
+                    this.ShutdownHMS.Second = this.core.Status.ShutdownSeconds;
+                }
+                else
+                {
+                    this.ConductorText = string.Format(HashedString.Get("core_shuttingdown"), this.core.Status.ShutdownTotalSeconds);
+                    this.ShutdownHMS.Second = 0;
+                }
+
+                if (this.core.Status.ShutdownPending_CpuUsage != 0)
+                {
+                    this.ConductorText = string.Format(HashedString.Get("core_shuttingdown_cpu"), this.core.Status.ShutdownPending_CpuUsage);
+                }
             }
             else
             {
-                this.ConductorText = string.Format(HashedString.Get("core_shuttingdown"), this.core.Status.ShutdownTotalSeconds);
-                this.ShutdownHMS.Second = 0;
+                this.ConductorText = string.Empty;
             }
 
-            if (this.core.Status.ShutdownPending_CpuUsage != 0)
-            {
-                this.ConductorText = string.Format(HashedString.Get("core_shuttingdown_cpu"), this.core.Status.ShutdownPending_CpuUsage);
-            }
-        }
-        else
-        {
-            this.ConductorText = string.Empty;
-        }
+            this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), this.core.Cpu.GetMaxAverage(), this.core.Cpu.GetAverage());
 
-        this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), this.core.Cpu.GetMaxAverage(), this.core.Cpu.GetAverage());
-
-        this.ActiveShutdown = this.core.Status.ActiveShutdown;
+            this.ActiveShutdown = this.core.Status.ActiveShutdown;
+        });
     }
 
     private void SetNotifyIcon()

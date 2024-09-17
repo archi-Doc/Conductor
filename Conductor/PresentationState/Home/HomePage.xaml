@@ -18,8 +18,7 @@
 
     <control:DockPanel LastChildFill="True">
         <control:DockPanel control:DockPanel.Dock="Bottom" LastChildFill="True" Margin="4">
-            <Button control:DockPanel.Dock="Right" x:Name="buttonSettings" Content="{Arc:Stringer Source=button_settings}"  Command="{x:Bind State.MessageIdCommand}" CommandParameter="Settings" />
-            <TextBlock x:Name="cpuStatus" FontSize="12" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.CpuStatusText}" />
+            <TextBlock x:Name="cpuStatus" FontSize="12" Margin="4" Text="{x:Bind State.CpuStatusText, Mode=OneWay}" HorizontalAlignment="Left"  />
         </control:DockPanel>
 
         <StackPanel Margin="6">
@@ -29,15 +28,15 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_open}" Command="{x:Bind State.MessageIdCommand}" CommandParameter="ActivateWindow"/>
                         <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep}" />
-                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff}"/>
+                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep, Mode=OneWay}" />
+                        <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=OneWay}"/>
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_exit}" Command="{x:Bind State.TaskbarExitCommand}"/>
                     </MenuFlyout>
                 </tb:TaskbarIcon.ContextFlyout>
             </tb:TaskbarIcon>
 
-            <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.ConductorText}" />
+            <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.ConductorText, Mode=OneWay}" />
 
             <control:WrapPanel control:DockPanel.Dock="Right" Orientation="Horizontal">
                 <local:HMSControl DataContext="{x:Bind Path=State.ShutdownHMS}" EnterCommand="{x:Bind State.ShutdownCommand}"/>
@@ -46,7 +45,7 @@
                 <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button_abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             </control:WrapPanel>
 
-            <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox_prevent_shutdown_while_busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy}" HorizontalAlignment="Left" Margin="6,10,6,6" />
+            <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox_prevent_shutdown_while_busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy, Mode=OneWay}" HorizontalAlignment="Left" Margin="6,10,6,6" />
 
             <StackPanel Margin="0,4,0,4">
                 <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar_preventpc}" IsChecked="{x:Bind State.TogglePreventSleep, Mode=TwoWay}" HorizontalAlignment="Left" />
