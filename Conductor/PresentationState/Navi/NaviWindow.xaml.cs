@@ -12,13 +12,14 @@ using WinUIEx;
 
 namespace Conductor.Presentation;
 
-public partial class NaviWindow : WindowEx, IBasicPresentationService//, IConductorPresentationService
+public partial class NaviWindow : WindowEx, IBasicPresentationService, IConductorPresentationService
 {
-    public NaviWindow(IChannel<IBasicPresentationService> basicPresentationChannel)
+    public NaviWindow(IChannel<IBasicPresentationService> basicPresentationChannel, IChannel<IConductorPresentationService> conductorPresentationChannel)
     {
         this.InitializeComponent();
         Scaler.Register(this.layoutTransform);
         basicPresentationChannel.Open(this, true);
+        conductorPresentationChannel.Open(this, true);
 
         this.Title = App.Title;
         this.SetApplicationIcon();
@@ -66,10 +67,10 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService//, IConduc
         Arc.WinUI.WindowExtensions.ActivateWindow(this, force);
     }
 
-    /*void IConductorPresentationService.ActivateWindow(bool force)
+    void IConductorPresentationService.ActivateWindow(bool force)
     {
-        // this.ActivateWindow(force);
-    }*/
+        this.ActivateWindow(force);
+    }
 
     #endregion
 

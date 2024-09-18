@@ -23,10 +23,10 @@
 
         <StackPanel Margin="6">
 
-            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{Binding IconPath}" ToolTipText="{Arc:Stringer Source=App.Name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.ActivateWindowCommand}" LeftClickCommandParameter="ActivateWindow">
+            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{Binding IconPath}" ToolTipText="{Arc:Stringer Source=App.Name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.ActivateWindowCommand}">
                 <tb:TaskbarIcon.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_open}" Command="{x:Bind State.ActivateWindowCommand}" CommandParameter="ActivateWindow"/>
+                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_open}" Command="{x:Bind State.ActivateWindowCommand}"/>
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep, Mode=OneWay}" />
                         <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=OneWay}"/>
@@ -45,11 +45,10 @@
                 <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button_abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             </control:WrapPanel>
 
-            <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox_prevent_shutdown_while_busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy, Mode=OneWay}" HorizontalAlignment="Left" Margin="6,10,6,6" />
-
-            <StackPanel Margin="0,4,0,4">
-                <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar_preventpc}" IsChecked="{x:Bind State.TogglePreventSleep, Mode=TwoWay}" HorizontalAlignment="Left" />
-                <CheckBox x:Name="togglePreventScreen" Content="{Arc:Stringer Source=taskbar_preventscreenoff}" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=TwoWay}" HorizontalAlignment="Left" />
+            <StackPanel Margin="0,6,0,6">
+                <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox_prevent_shutdown_while_busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy, Mode=OneWay}" HorizontalAlignment="Left" Margin="4" />
+                <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar_preventpc}" IsChecked="{x:Bind State.TogglePreventSleep, Mode=TwoWay}" HorizontalAlignment="Left" Margin="4" />
+                <CheckBox x:Name="togglePreventScreen" Content="{Arc:Stringer Source=taskbar_preventscreenoff}" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=TwoWay}" HorizontalAlignment="Left" Margin="4" />
             </StackPanel>
         </StackPanel>
     </control:DockPanel>

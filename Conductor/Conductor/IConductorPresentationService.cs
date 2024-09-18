@@ -2,8 +2,10 @@
 
 using CrossChannel;
 
-//[RadioServiceInterface(MaxLinks = 1)]
-//public interface IConductorPresentationService : IRadioService
-//{
-//    void ActivateWindow(bool force = false);
-//}
+namespace Conductor;
+
+[RadioServiceInterface(MaxLinks = 1)]
+public interface IConductorPresentationService : IRadioService
+{
+    void ActivateWindow(bool force = false);
+}
