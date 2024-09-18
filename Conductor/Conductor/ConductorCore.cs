@@ -305,13 +305,13 @@ public class ConductorCore
                     this.ShutdownSeconds = second;
                     this.ShutdownTotalSeconds = (hour * 3600) + (minute * 60) + second;
 
-                    this.CanShutdown = true;
+                    this.CanShutdown = false;
                     this.ShutdownProcess = this.Core.ShutdownTask.Type == ConductorTaskType.ShutdownProcess;
                     this.ShutdownStatusText = string.Empty;
                 }
                 else
                 {
-                    this.CanShutdown = false;
+                    this.CanShutdown = true;
                     this.ShutdownProcess = false;
                     this.ShutdownStatusText = string.Empty;
                 }

@@ -16,12 +16,17 @@ public partial class HMSControl : UserControl
     public static readonly DependencyProperty EnterCommandProperty =
         DependencyProperty.Register("EnterCommand", typeof(ICommand), typeof(HMSControl), new PropertyMetadata(null));
 
-    public HMSControlState State { get; }
+    public HMSControlState State
+    {
+        get => this.state ??= App.GetService<HMSControlState>();
+        set => this.state = value;
+    }
+
+    private HMSControlState? state;
 
     public HMSControl()
     {
         this.InitializeComponent();
-        this.State = App.GetService<HMSControlState>();
     }
 
     public ICommand EnterCommand

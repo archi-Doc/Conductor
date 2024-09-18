@@ -1,7 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using System.Timers;
-using System.Windows.Input;
 using Arc.WinUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -48,6 +47,7 @@ public partial class HomePageState : ObservableObject
         this.timer.Start();
     }
 
+    // [RelayCommand]
     [RelayCommand(CanExecute = nameof(CanShutdown))]
     private void Shutdown()
     {
@@ -62,15 +62,15 @@ public partial class HomePageState : ObservableObject
         this.UpdateStatus(true);
     }
 
-    [RelayCommand(CanExecute = nameof(CanExecuteClear))]
+    [RelayCommand(CanExecute = nameof(CanClear))]
     private void Clear()
     {
         this.ShutdownHMS.Clear();
     }
 
-    private bool CanExecuteClear()
+    private bool CanClear()
     {
-        return !this.CanShutdown &&
+        return this.CanShutdown &&
             (this.ShutdownHMS.HourText != string.Empty ||
             this.ShutdownHMS.MinuteText != string.Empty ||
             this.ShutdownHMS.SecondText != string.Empty);
@@ -93,7 +93,7 @@ public partial class HomePageState : ObservableObject
             .ObservesProperty(() => this.ShutdownHMS.SecondText);
     }*/
 
-    [RelayCommand(CanExecute = nameof(CanShutdown))]
+    [RelayCommand]
     private void Abort()
     {
         this.core.AbortShutdown();
@@ -153,7 +153,7 @@ public partial class HomePageState : ObservableObject
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ShutdownCommand))]
-    private bool canShutdown;
+    private bool canShutdown = true;
 
     partial void OnCanShutdownChanged(bool value)
     {
@@ -181,9 +181,9 @@ public partial class HomePageState : ObservableObject
                 this.core.Status.Update();
             }
 
-            this.ShutdownHMS.IsReadOnly = this.core.Status.CanShutdown;
+            this.ShutdownHMS.IsReadOnly = !this.core.Status.CanShutdown;
             this.ShutdownHMS.StatusText = this.core.Status.ShutdownStatusText;
-            if (this.core.Status.CanShutdown)
+            if (!this.core.Status.CanShutdown)
             {
                 if (this.core.Status.ShutdownProcess == false)
                 {

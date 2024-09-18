@@ -39,13 +39,13 @@
             <TextBlock x:Name="textStatus" FontSize="18" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" Text="{x:Bind State.ConductorText, Mode=OneWay}" />
 
             <control:WrapPanel control:DockPanel.Dock="Right" Orientation="Horizontal">
-                <local:HMSControl DataContext="{x:Bind Path=State.ShutdownHMS}" EnterCommand="{x:Bind State.ShutdownCommand}"/>
+                <local:HMSControl State="{x:Bind State.ShutdownHMS}" EnterCommand="{x:Bind State.ShutdownCommand}" Margin="6"/>
                 <Button x:Name="buttonShutdown" Content="{Arc:Stringer Source=button_shutdown}"  Command="{x:Bind State.ShutdownCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <Button x:Name="buttonClear" Content="{Arc:Stringer Source=button_clear}"  Command="{x:Bind State.ClearCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button_abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
             </control:WrapPanel>
 
-            <StackPanel Margin="0,6,0,6">
+            <StackPanel Margin="6,12,6,6">
                 <CheckBox x:Name="togglePreventShutdownWhileBusy" Content="{Arc:Stringer Source=checkbox_prevent_shutdown_while_busy}" IsChecked="{x:Bind State.TogglePreventShutdownWhileBusy, Mode=OneWay}" HorizontalAlignment="Left" Margin="4" />
                 <CheckBox x:Name="togglePreventSleep" Content="{Arc:Stringer Source=taskbar_preventpc}" IsChecked="{x:Bind State.TogglePreventSleep, Mode=TwoWay}" HorizontalAlignment="Left" Margin="4" />
                 <CheckBox x:Name="togglePreventScreen" Content="{Arc:Stringer Source=taskbar_preventscreenoff}" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=TwoWay}" HorizontalAlignment="Left" Margin="4" />
