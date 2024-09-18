@@ -12,7 +12,7 @@ using WinUIEx;
 
 namespace Conductor.Presentation;
 
-public partial class NaviWindow : WindowEx, IBasicPresentationService
+public partial class NaviWindow : WindowEx, IBasicPresentationService//, IConductorPresentationService
 {
     public NaviWindow(IChannel<IBasicPresentationService> basicPresentationChannel)
     {
@@ -36,6 +36,8 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService
 
     #endregion
 
+    #region IBasicPresentationService
+
     public Task<RadioResult<ulong>> MessageDialog(ulong title, ulong content, ulong defaultCommand, ulong cancelCommand, ulong secondaryCommand, CancellationToken cancellationToken)
     {
         return this.ShowMessageDialogAsync(title, content, defaultCommand, cancelCommand, secondaryCommand, cancellationToken);
@@ -54,6 +56,22 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService
             return new(false);
         }
     }
+
+    #endregion
+
+    #region IConductorPresentationService
+
+    public void ActivateWindow(bool force = false)
+    {
+        Arc.WinUI.WindowExtensions.ActivateWindow(this, force);
+    }
+
+    /*void IConductorPresentationService.ActivateWindow(bool force)
+    {
+        // this.ActivateWindow(force);
+    }*/
+
+    #endregion
 
     private async void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
     {// The close button of the Window was pressed.

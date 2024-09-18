@@ -12,7 +12,8 @@ namespace Conductor.State;
 public partial class HomePageState : ObservableObject
 {
     private readonly ConductorCore core;
-    private readonly IBasicPresentationService simpleWindowService;
+    private readonly IBasicPresentationService basicPresentationService;
+    // private readonly IConductorPresentationService conductorPresentationService;
     private readonly Timer timer;
 
     [ObservableProperty]
@@ -30,10 +31,11 @@ public partial class HomePageState : ObservableObject
     [ObservableProperty]
     private HMSControlState shutdownHMS = new HMSControlState();
 
-    public HomePageState(ConductorCore core, IBasicPresentationService simpleWindowService)
+    public HomePageState(ConductorCore core, IBasicPresentationService simpleWindowService/*, IConductorPresentationService conductorPresentationService*/)
     {
         this.core = core;
-        this.simpleWindowService = simpleWindowService;
+        this.basicPresentationService = simpleWindowService;
+        // this.conductorPresentationService = conductorPresentationService;
         this.TogglePreventShutdownWhileBusy = App.Settings.TogglePreventShutdownWhileBusy;
 
         this.SetNotifyIcon();
@@ -119,7 +121,7 @@ public partial class HomePageState : ObservableObject
     [RelayCommand]
     private void TaskbarExit()
     {
-        // this.ViewService.MessageID(MessageId.ExitWithoutConfirmation);
+        App.Exit();
     }
 
     [ObservableProperty]
@@ -159,15 +161,9 @@ public partial class HomePageState : ObservableObject
     }
 
     [RelayCommand]
-    private void MessageId(string param)
+    private void ActivateWindow()
     {
-        //if (!Enum.TryParse<MessageId>(param, out var id))
-        {
-            return;
-        }
-
-        // var id = (MessageId)Enum.Parse(typeof(MessageId), param!);
-        // this.ViewService.MessageID(id);
+        // this.conductorPresentationService.ActivateWindow();
     }
 
     private void Timer(ElapsedEventArgs elapsedEventArgs)

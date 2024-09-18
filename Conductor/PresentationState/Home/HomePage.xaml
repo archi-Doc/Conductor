@@ -23,10 +23,10 @@
 
         <StackPanel Margin="6">
 
-            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{Binding IconPath}" ToolTipText="{Arc:Stringer Source=App.Name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.MessageIdCommand}" LeftClickCommandParameter="ActivateWindow">
+            <tb:TaskbarIcon x:Name="taskbarIcon" IconSource="{Binding IconPath}" ToolTipText="{Arc:Stringer Source=App.Name}" MenuActivation="RightClick" LeftClickCommand="{x:Bind State.ActivateWindowCommand}" LeftClickCommandParameter="ActivateWindow">
                 <tb:TaskbarIcon.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_open}" Command="{x:Bind State.MessageIdCommand}" CommandParameter="ActivateWindow"/>
+                        <MenuFlyoutItem Text="{Arc:Stringer Source=taskbar_open}" Command="{x:Bind State.ActivateWindowCommand}" CommandParameter="ActivateWindow"/>
                         <MenuFlyoutSeparator />
                         <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventpc}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventSleep" IsChecked="{x:Bind State.TogglePreventSleep, Mode=OneWay}" />
                         <ToggleMenuFlyoutItem Text="{Arc:Stringer Source=taskbar_preventscreenoff}" Command="{x:Bind State.TaskbarCommand}" CommandParameter="TogglePreventScreenOff" IsChecked="{x:Bind State.TogglePreventScreenOff, Mode=OneWay}"/>

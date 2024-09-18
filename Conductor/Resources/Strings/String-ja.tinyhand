@@ -14,16 +14,16 @@ taskbar_preventpc = "モニターの電源オフを抑制する"
 // Buttons
 button_shutdown = "シャットダウン"
 button_clear = "クリア"
-button_sleep = "Sleep"
-button_logoff = "Log off"
-button_abort = "Abort"
+button_sleep = "スリープ"
+button_logoff = "ログオフ"
+button_abort = "中止"
 
-checkbox_prevent_shutdown_while_busy = "Wait for shutdown while CPU usage is high."
+checkbox_prevent_shutdown_while_busy = "CPU使用率が高い間は、シャットダウンを抑制する"
 
-core_shutdown_remaining = "Shutting down in "
-core_shuttingdown = "Waiting shutdown・・・{0} seconds"
-core_shuttingdown_cpu = "Waiting for shutdown due to high CPU usage（{0:F0} %）"
-core_cpustatus = "CPU Max usage {0:F0} % / Avg. usage {1:F0} %"
+core_shutdown_remaining = "シャットダウンまで"
+core_shuttingdown = "シャットダウン・・・実行まであと {0} 秒"
+core_shuttingdown_cpu = "シャットダウン・・・CPU使用率が下がるまで待機中（{0:F0} %）"
+core_cpustatus = "CPU 最大使用率 {0:F0} % / 平均使用率 {1:F0} %"
 
 App = {
     Name = "Conductor" // Name
