@@ -47,17 +47,7 @@ public partial class HomePageState : ObservableObject
         };
         this.timer.Start();
 
-        this.shutdownHMS.PropertyChanged += this.HmsPropertyChanged;
-    }
-
-    private void HmsPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == "HourText" ||
-            e.PropertyName == "MinuteText" ||
-            e.PropertyName == "SecondText")
-        {// Value changed
-            this.UpdateCommandState();
-        }
+        this.shutdownHMS.TimeModified += sender => this.UpdateCommandState();
     }
 
     private void UpdateCommandState()

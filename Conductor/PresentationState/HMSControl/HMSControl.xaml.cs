@@ -16,6 +16,8 @@ public partial class HMSControl : UserControl
     public static readonly DependencyProperty EnterCommandProperty =
         DependencyProperty.Register("EnterCommand", typeof(ICommand), typeof(HMSControl), new PropertyMetadata(null));
 
+    #region FieldAndProperty
+
     public HMSControlState State
     {
         get => this.state ??= App.GetService<HMSControlState>();
@@ -23,6 +25,8 @@ public partial class HMSControl : UserControl
     }
 
     private HMSControlState? state;
+
+    #endregion
 
     public HMSControl()
     {

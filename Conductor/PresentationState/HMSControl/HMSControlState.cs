@@ -1,12 +1,15 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
 using System;
+using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Conductor.State;
 
 public class HMSControlState : ObservableObject
 { // Hour/Minute/Second
+    #region FieldAndProperty
+
     private int hour;
 
     private int minute;
@@ -25,18 +28,13 @@ public class HMSControlState : ObservableObject
 
     private bool hideSecondText = false;
 
-    public HMSControlState()
-    {
-    }
-
-    public HMSControlState(int hour, int minute, int second)
-    {
-        this.SetTime(hour, minute, second);
-    }
-
     public bool Circular { get; set; } = false;
 
     public bool IsValid => this.hour >= 0 && this.minute >= 0 && this.second >= 0;
+
+    public delegate void TimeModifiedEventHandler(HMSControlState sender);
+
+    public event TimeModifiedEventHandler TimeModified;
 
     public int Hour
     {
@@ -70,6 +68,7 @@ public class HMSControlState : ObservableObject
             this.SetProperty(ref this.hourText, value);
             int.TryParse(this.hourText, out var result);
             this.SetHour(result, false);
+            this.TimeModified?.Invoke(this);
         }
     }
 
@@ -81,6 +80,7 @@ public class HMSControlState : ObservableObject
             this.SetProperty(ref this.minuteText, value);
             int.TryParse(this.minuteText, out var result);
             this.SetMinute(result, false);
+            this.TimeModified?.Invoke(this);
         }
     }
 
@@ -92,6 +92,7 @@ public class HMSControlState : ObservableObject
             this.SetProperty(ref this.secondText, value);
             int.TryParse(this.secondText, out var result);
             this.SetSecond(result, false);
+            this.TimeModified?.Invoke(this);
         }
     }
 
@@ -105,6 +106,17 @@ public class HMSControlState : ObservableObject
     {
         get => this.hideSecondText;
         set => this.SetProperty(ref this.hideSecondText, value);
+    }
+
+    #endregion
+
+    public HMSControlState()
+    {
+    }
+
+    public HMSControlState(int hour, int minute, int second)
+    {
+        this.SetTime(hour, minute, second);
     }
 
     public bool IncrementHour()
