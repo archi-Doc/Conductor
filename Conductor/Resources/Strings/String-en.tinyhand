@@ -1,0 +1,73 @@
+// identifier = "string" /* null: Use the default value. */
+
+// Hour/Minute/Second
+hms_hour = "hr"
+hms_minute = "min"
+hms_second = "sec"
+
+// Taskbar
+taskbar_open = "Open Conductor"
+taskbar_exit = "Exit"
+taskbar_preventscreenoff = "Prevent Windows from entering sleep mode"
+taskbar_preventpc = "Prevent the display from turning off"
+
+// Buttons
+button_shutdown = "Shutdown"
+button_clear = "Clear"
+button_sleep = "Sleep"
+button_logoff = "Log off"
+button_abort = "Abort"
+
+checkbox_prevent_shutdown_while_busy = "Wait for shutdown while CPU usage is high."
+
+core_shutdown_remaining = "Shutting down in "
+core_shuttingdown = "Waiting shutdown・・・{0} seconds"
+core_shuttingdown_cpu = "Waiting for shutdown due to high CPU usage（{0:F0} %）"
+core_cpustatus = "CPU Max usage {0:F0} % / Avg. usage {1:F0} %"
+
+App = {
+    Name = "Conductor" // Name
+    Description = "description"
+    DateTime = "MM/dd H:mm:ss"
+}
+
+Navigation = {
+    Home = "Home"
+    Settings = "Settings"
+    Information = "Information"
+    Exit = "Exit"
+}
+
+// dialog
+Dialog =
+{
+    Ok = "O K"
+    Cancel = "Cancel"
+    Yes = "Yes"
+    No = "No"
+    Exit = "Are you sure you want to exit?"
+    Message = "Yes or no?"
+}
+
+// settings
+Settings = {
+DataFolder = "Data folder"
+Open = "Open"
+Language = "Language"
+DisplayScaling = "Display scaling"
+CloseButton = "Close Button"
+}
+
+// other
+Language = {
+    En = "English (英語）"
+    Ja = "Japanese (日本語)"
+}
+
+Button = {
+    Text = "Notification message"
+    Settings = "Settings"
+    DataFolder = "DataFolder"
+    AddItem = "Add"
+    ClearItem = "Clear"
+}

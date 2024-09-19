@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<winex:WindowEx
+    x:Class="Conductor.Presentation.NaviWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Conductor"
+    xmlns:Arc="using:Arc.WinUI"
+    xmlns:winex="using:WinUIEx"
+    xmlns:control="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <control:LayoutTransformControl x:Name="layoutTransform">
+
+        <NavigationView x:Name="navigationView" Background="WhiteSmoke" OpenPaneLength="180" PaneDisplayMode="Left" IsTabStop="False" SelectionChanged="nvSample_SelectionChanged" IsSettingsVisible="False" IsBackButtonVisible="Collapsed">
+            <NavigationView.MenuItems>
+                <NavigationViewItem x:Name="nvHome" Icon="Home" Content="{Arc:Stringer Source=Navigation.Home}" Tag="Home" />
+                <NavigationViewItem x:Name="nvSettings" Icon="Setting" Content="{Arc:Stringer Source=Navigation.Settings}" Tag="Settings" />
+                <NavigationViewItem x:Name="nvInformation" Icon="ContactInfo" Content="{Arc:Stringer Source=Navigation.Information}" Tag="Information" />
+                <NavigationViewItem x:Name="nvExit" Icon="Cancel" Content="{Arc:Stringer Source=Navigation.Exit}" Tag="Exit" Tapped="nvExit_Tapped"  SelectsOnInvoked="False"/>
+            </NavigationView.MenuItems>
+            <Frame x:Name="contentFrame"/>
+        </NavigationView>
+
+    </control:LayoutTransformControl>
+
+</winex:WindowEx>

@@ -1,0 +1,73 @@
+// identifier = "string" /* null: Use the default value. */
+
+// Hour/Minute/Second
+hms_hour = "時間"
+hms_minute = "分"
+hms_second = "秒"
+
+// Taskbar
+taskbar_open = "Conductorを開く"
+taskbar_exit = "終了"
+taskbar_preventscreenoff = "Windowsスリープモードを抑制する"
+taskbar_preventpc = "モニターの電源オフを抑制する"
+
+// Buttons
+button_shutdown = "シャットダウン"
+button_clear = "クリア"
+button_sleep = "スリープ"
+button_logoff = "ログオフ"
+button_abort = "中止"
+
+checkbox_prevent_shutdown_while_busy = "CPU使用率が高い間は、シャットダウンを抑制する"
+
+core_shutdown_remaining = "シャットダウンまで"
+core_shuttingdown = "シャットダウン・・・実行まであと {0} 秒"
+core_shuttingdown_cpu = "シャットダウン・・・CPU使用率が下がるまで待機中（{0:F0} %）"
+core_cpustatus = "CPU 最大使用率 {0:F0} % / 平均使用率 {1:F0} %"
+
+App = {
+    Name = "Conductor" // Name
+    Description = "説明文"
+    DateTime = "MM/dd H:mm:ss"
+}
+
+Navigation = {
+    Home = "Home"
+    Settings = "設定"
+    Information = "情報"
+    Exit = "終了"
+}
+
+// dialog
+Dialog = 
+{
+    Ok = "O K"
+    Cancel = "キャンセル"
+    Yes = "はい"
+    No = "いいえ"
+    Exit = "終了してもよろしいですか？"
+    Message = "イエス or ノー？"
+}
+
+// settings
+Settings = {
+    DataFolder = "データフォルダ"
+    Open = "開く"
+    Language = "表示言語"
+    DisplayScaling = "表示倍率"
+    CloseButton = "Close Button"
+}
+
+// other
+Language = {
+    En = "英語（English）"
+    Ja = "日本語（Japanese）"
+}
+
+Button = {
+    Text = "Notification message"
+    Settings = "Settings"
+    DataFolder = "DataFolder"
+    AddItem = "Add"
+    ClearItem = "Clear"
+}

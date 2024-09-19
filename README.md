@@ -16,4 +16,3 @@ System requirements: Windows + .NET Core 3.1
 - Orange: Preventing PC from sleeping or 
 
 
-

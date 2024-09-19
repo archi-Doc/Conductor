@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Conductor.Presentation.HMSControl"
+             x:Name="Root"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Arc="using:Arc.WinUI"
+             xmlns:Converters="using:Arc.WinUI.Converters"
+             mc:Ignorable="d" FontSize="16">
+
+    <UserControl.Resources>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal">
+        <TextBlock x:Name="StatusTextBlock" Text="{x:Bind State.StatusText, Mode=OneWay}" VerticalAlignment="Center" FontSize="18" Margin="8,4,8,4"/>
+        <TextBox x:Name="HourTextBox" Text="{x:Bind State.HourText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="30" VerticalAlignment="Center" BeforeTextChanging="HourTextBox_BeforeTextChanging" MaxLength="2" IsEnabled="{x:Bind State.IsReadOnly, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" PointerWheelChanged="HourTextBox_PreviewMouseWheel" InputScope="Number" />
+        <TextBlock x:Name="HourTextBlock" Text="{Arc:Stringer Source=hms_hour}" VerticalAlignment="Center" Margin="4,4,8,4"/>
+        <TextBox x:Name="MinuteTextBox" Text="{x:Bind State.MinuteText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="30" VerticalAlignment="Center" BeforeTextChanging="MinuteTextBox_BeforeTextChanging"  TextChanged="TextBox_TextChanged_Limit60" MaxLength="2" IsEnabled="{x:Bind State.IsReadOnly, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" PointerWheelChanged="MinuteTextBox_PreviewMouseWheel" />
+        <TextBlock x:Name="MinuteTextBlock" Text="{Arc:Stringer Source=hms_minute}" VerticalAlignment="Center" Margin="4,4,8,4"/>
+        <TextBox x:Name="SecondTextBox" Text="{x:Bind State.SecondText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="30" VerticalAlignment="Center" BeforeTextChanging="SecondTextBox_BeforeTextChanging"  TextChanged="TextBox_TextChanged_Limit60" MaxLength="2" Visibility="{x:Bind State.HideSecondText, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted, Mode=OneWay}"  IsEnabled="{x:Bind State.IsReadOnly, Converter={StaticResource InverseBoolConverter}, Mode=OneWay}" PointerWheelChanged="SecondTextBox_PreviewMouseWheel" />
+        <TextBlock x:Name="SecondTextBlock" Text="{Arc:Stringer Source=hms_second}" VerticalAlignment="Center" Margin="4,4,8,4"  Visibility="{x:Bind State.HideSecondText, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted, Mode=OneWay}"/>
+    </StackPanel>
+</UserControl>
