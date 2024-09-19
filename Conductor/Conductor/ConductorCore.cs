@@ -277,7 +277,7 @@ public class ConductorCore
 
         public string Text { get; private set; } = string.Empty;
 
-        public bool CanShutdown { get; private set; }
+        public bool CanShutdown { get; private set; } = true;
 
         public bool ShutdownProcess { get; private set; }
 

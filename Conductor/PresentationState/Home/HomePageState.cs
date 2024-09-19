@@ -1,5 +1,6 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
+using System.ComponentModel;
 using System.Timers;
 using Arc.WinUI;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -45,9 +46,30 @@ public partial class HomePageState : ObservableObject
             this.Timer(e);
         };
         this.timer.Start();
+
+        this.shutdownHMS.PropertyChanged += this.HmsPropertyChanged;
     }
 
-    // [RelayCommand]
+    private void HmsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == "HourText" ||
+            e.PropertyName == "MinuteText" ||
+            e.PropertyName == "SecondText")
+        {// Value changed
+            this.UpdateCommandState();
+        }
+    }
+
+    private void UpdateCommandState()
+    {
+        this.ShutdownCommand.NotifyCanExecuteChanged();
+        this.AbortCommand.NotifyCanExecuteChanged();
+        this.ClearCommand.NotifyCanExecuteChanged();
+    }
+
+    private bool CanShutdown
+        => this.core.Status.CanShutdown;
+
     [RelayCommand(CanExecute = nameof(CanShutdown))]
     private void Shutdown()
     {
@@ -60,44 +82,31 @@ public partial class HomePageState : ObservableObject
         this.timer.Stop();
         this.timer.Start();
         this.UpdateStatus(true);
+        this.UpdateCommandState();
     }
+
+    private bool CanClear
+        => this.core.Status.CanShutdown &&
+            (this.ShutdownHMS.HourText != string.Empty ||
+            this.ShutdownHMS.MinuteText != string.Empty ||
+            this.ShutdownHMS.SecondText != string.Empty);
 
     [RelayCommand(CanExecute = nameof(CanClear))]
     private void Clear()
     {
         this.ShutdownHMS.Clear();
+        this.UpdateCommandState();
     }
 
-    private bool CanClear()
-    {
-        return this.CanShutdown &&
-            (this.ShutdownHMS.HourText != string.Empty ||
-            this.ShutdownHMS.MinuteText != string.Empty ||
-            this.ShutdownHMS.SecondText != string.Empty);
-    }
+    private bool CanAbort
+        => !this.core.Status.CanShutdown;
 
-    /*public DelegateCommand CommandClear
-    {
-        get => this.commandClear ??= new DelegateCommand(
-                () =>
-                {
-                    this.ShutdownHMS.Clear();
-                },
-                () => !this.CanShutdown &&
-                (this.ShutdownHMS.HourText != string.Empty ||
-                this.ShutdownHMS.MinuteText != string.Empty ||
-                this.ShutdownHMS.SecondText != string.Empty))
-            .ObservesProperty(() => this.CanShutdown)
-            .ObservesProperty(() => this.ShutdownHMS.HourText)
-            .ObservesProperty(() => this.ShutdownHMS.MinuteText)
-            .ObservesProperty(() => this.ShutdownHMS.SecondText);
-    }*/
-
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanAbort))]
     private void Abort()
     {
         this.core.AbortShutdown();
         this.UpdateStatus(true);
+        this.UpdateCommandState();
     }
 
     [RelayCommand]
@@ -151,15 +160,6 @@ public partial class HomePageState : ObservableObject
         App.Settings.TogglePreventShutdownWhileBusy = value;
     }
 
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ShutdownCommand))]
-    private bool canShutdown = true;
-
-    partial void OnCanShutdownChanged(bool value)
-    {
-        this.SetNotifyIcon();
-    }
-
     [RelayCommand]
     private void ActivateWindow()
     {
@@ -169,49 +169,44 @@ public partial class HomePageState : ObservableObject
     private void Timer(ElapsedEventArgs elapsedEventArgs)
     {
         this.core.ProcessEverySecond();
-        this.UpdateStatus(false);
+        App.ExecuteOrEnqueueOnUI(() => this.UpdateStatus(false));
     }
 
     private void UpdateStatus(bool update)
     {
-        App.ExecuteOrEnqueueOnUI(() =>
+        if (update)
         {
-            if (update)
-            {
-                this.core.Status.Update();
-            }
+            this.core.Status.Update();
+        }
 
-            this.ShutdownHMS.IsReadOnly = !this.core.Status.CanShutdown;
-            this.ShutdownHMS.StatusText = this.core.Status.ShutdownStatusText;
-            if (!this.core.Status.CanShutdown)
+        this.ShutdownHMS.IsReadOnly = !this.core.Status.CanShutdown;
+        this.ShutdownHMS.StatusText = this.core.Status.ShutdownStatusText;
+        if (!this.core.Status.CanShutdown)
+        {
+            if (this.core.Status.ShutdownProcess == false)
             {
-                if (this.core.Status.ShutdownProcess == false)
-                {
-                    this.ConductorText = HashedString.Get("core_shutdown_remaining");
-                    this.ShutdownHMS.Hour = this.core.Status.ShutdownHours;
-                    this.ShutdownHMS.Minute = this.core.Status.ShutdownMinutes;
-                    this.ShutdownHMS.Second = this.core.Status.ShutdownSeconds;
-                }
-                else
-                {
-                    this.ConductorText = string.Format(HashedString.Get("core_shuttingdown"), this.core.Status.ShutdownTotalSeconds);
-                    this.ShutdownHMS.Second = 0;
-                }
-
-                if (this.core.Status.ShutdownPending_CpuUsage != 0)
-                {
-                    this.ConductorText = string.Format(HashedString.Get("core_shuttingdown_cpu"), this.core.Status.ShutdownPending_CpuUsage);
-                }
+                this.ConductorText = HashedString.Get("core_shutdown_remaining");
+                this.ShutdownHMS.Hour = this.core.Status.ShutdownHours;
+                this.ShutdownHMS.Minute = this.core.Status.ShutdownMinutes;
+                this.ShutdownHMS.Second = this.core.Status.ShutdownSeconds;
             }
             else
             {
-                this.ConductorText = string.Empty;
+                this.ConductorText = string.Format(HashedString.Get("core_shuttingdown"), this.core.Status.ShutdownTotalSeconds);
+                this.ShutdownHMS.Second = 0;
             }
 
-            this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), this.core.Cpu.GetMaxAverage(), this.core.Cpu.GetAverage());
+            if (this.core.Status.ShutdownPending_CpuUsage != 0)
+            {
+                this.ConductorText = string.Format(HashedString.Get("core_shuttingdown_cpu"), this.core.Status.ShutdownPending_CpuUsage);
+            }
+        }
+        else
+        {
+            this.ConductorText = string.Empty;
+        }
 
-            this.CanShutdown = this.core.Status.CanShutdown;
-        });
+        this.CpuStatusText = string.Format(HashedString.Get("core_cpustatus"), this.core.Cpu.GetMaxAverage(), this.core.Cpu.GetAverage());
     }
 
     private void SetNotifyIcon()

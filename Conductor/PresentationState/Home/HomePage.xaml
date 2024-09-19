@@ -40,9 +40,9 @@
 
             <control:WrapPanel control:DockPanel.Dock="Right" Orientation="Horizontal">
                 <local:HMSControl State="{x:Bind State.ShutdownHMS}" EnterCommand="{x:Bind State.ShutdownCommand}" Margin="6"/>
-                <Button x:Name="buttonShutdown" Content="{Arc:Stringer Source=button_shutdown}"  Command="{x:Bind State.ShutdownCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <Button x:Name="buttonClear" Content="{Arc:Stringer Source=button_clear}"  Command="{x:Bind State.ClearCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button_abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button x:Name="buttonShutdown" Content="{Arc:Stringer Source=button_shutdown}"  Command="{x:Bind State.ShutdownCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="6" />
+                <Button x:Name="buttonClear" Content="{Arc:Stringer Source=button_clear}"  Command="{x:Bind State.ClearCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="6" />
+                <Button x:Name="buttonAbort" Content="{Arc:Stringer Source=button_abort}"  Command="{x:Bind State.AbortCommand}" Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" Margin="6" />
             </control:WrapPanel>
 
             <StackPanel Margin="6,12,6,6">
