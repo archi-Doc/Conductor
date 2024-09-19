@@ -2,6 +2,7 @@
 
 using System;
 using System.Text;
+using Arc.WinUI;
 using CrossChannel;
 
 #pragma warning disable SA1602 // Enumeration items should be documented
@@ -111,9 +112,10 @@ public class ConductorTask
 
 public class ConductorCore
 {
-    public ConductorCore(ILogger<ConductorCore> logger)
+    public ConductorCore(ILogger<ConductorCore> logger, Crystalizer crystalizer)
     {
         this.logger = logger;
+        this.crystalizer = crystalizer;
         this.Cpu = new ConductorCpu();
         this.Status = new ConductorStatus(this);
     }
@@ -136,6 +138,7 @@ public class ConductorCore
 
     private readonly object cs = new();
     private readonly ILogger logger;
+    private readonly Crystalizer crystalizer;
 
     public void Shutdown(int hour, int minute, int second)
     {
@@ -227,7 +230,7 @@ public class ConductorCore
                 }
 
                 Arc.WinAPI.Methods.SetThreadExecutionState(Arc.WinAPI.EXECUTION_STATE.ES_DISPLAY_REQUIRED);
-                //App.GetService<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ActivateWindowForce);
+                Radio.Send<IConductorPresentationService>().ActivateWindow(true);
 
                 if (this.ShutdownTask == null || this.ShutdownTask.Type != ConductorTaskType.ShutdownProcess)
                 {
@@ -250,12 +253,11 @@ public class ConductorCore
 
                 this.logger.TryGet()?.Log("Shutdown process.");
 
-                //Radio.Send(Message_Save.Prepare);
-                //Radio.Send(Message_Save.Save);
+                this.crystalizer.SaveAll().Wait();
 
                 Arc.WinAPI.Methods.AdjustToken();
                 Arc.WinAPI.Methods.ExitWindowsEx(Arc.WinAPI.ExitWindows.EWX_POWEROFF, 0);
-                //App.Resolve<IMainViewService>().MessageID(Arc.Mvvm.MessageId.ExitWithoutConfirmation);
+                App.Exit();
 
                 this.ShutdownTask = null;
             }

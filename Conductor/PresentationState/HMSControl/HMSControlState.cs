@@ -34,7 +34,7 @@ public class HMSControlState : ObservableObject
 
     public delegate void TimeModifiedEventHandler(HMSControlState sender);
 
-    public event TimeModifiedEventHandler TimeModified;
+    public event TimeModifiedEventHandler? TimeModified;
 
     public int Hour
     {

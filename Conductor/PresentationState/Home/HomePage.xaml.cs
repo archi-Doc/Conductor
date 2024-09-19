@@ -18,6 +18,11 @@ public sealed partial class HomePage : Page
         this.DataContext = this.State; // Set the DataContext when using Binding.
     }
 
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        this.State.UpdateStatus(true);
+    }
+
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
     }
