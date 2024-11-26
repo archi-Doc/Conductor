@@ -5,7 +5,7 @@ using Arc.WinUI;
 namespace Conductor;
 
 [TinyhandObject(ImplicitKeyAsName = true)]
-public partial class AppSettings : ITinyhandSerializationCallback
+public partial class AppSettings
 {// Application Settings
     public const string Filename = "AppSettings.tinyhand";
 
@@ -17,17 +17,15 @@ public partial class AppSettings : ITinyhandSerializationCallback
 
     public bool TogglePreventShutdownWhileBusy { get; set; } = false;
 
-    public void OnAfterDeserialize()
-    {
-        Scaler.ViewScale = this.ViewScale;
-    }
-
+    [TinyhandOnSerializing]
     public void OnBeforeSerialize()
     {
         this.ViewScale = Scaler.ViewScale;
     }
 
-    public void OnAfterReconstruct()
+    [TinyhandOnDeserialized]
+    public void OnAfterDeserialize()
     {
+        Scaler.ViewScale = this.ViewScale;
     }
 }
