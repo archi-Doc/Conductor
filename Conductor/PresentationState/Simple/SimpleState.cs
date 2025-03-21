@@ -17,7 +17,7 @@ public partial class SimpleState : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(TextUpper))]
-    private string _text = string.Empty;
+    public partial string Text { get; set; } = string.Empty;
 
     public string TextUpper => this.Text.ToUpper();
 

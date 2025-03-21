@@ -71,14 +71,14 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
 
             this.Preload(context =>
             {
-                context.RootDirectory = App.DataFolder;
+                context.ProgramDirectory = App.DataFolder;
                 context.DataDirectory = App.DataFolder;
             });
 
             this.SetupOptions<FileLoggerOptions>((context, options) =>
             {// FileLoggerOptions
                 var logfile = "Logs/Log.txt";
-                options.Path = Path.Combine(context.RootDirectory, logfile);
+                options.Path = Path.Combine(context.ProgramDirectory, logfile);
                 options.MaxLogCapacity = 2;
                 options.ClearLogsAtStartup = false;
             });
@@ -178,7 +178,7 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
     void IUnitPreparable.Prepare(UnitMessage.Prepare message)
     {
         this.logger.TryGet()?.Log("Unit prepared.");
-        this.logger.TryGet()?.Log($"Root: {this.options.RootDirectory}");
+        this.logger.TryGet()?.Log($"Root: {this.options.ProgramDirectory}");
         this.logger.TryGet()?.Log($"Data: {this.options.DataDirectory}");
     }
 

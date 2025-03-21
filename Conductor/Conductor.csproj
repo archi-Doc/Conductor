@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <LangVersion>preview</LangVersion>
     <OutputType>WinExe</OutputType>
     <WinUISDKReferences>false</WinUISDKReferences>
     <TargetFramework>$(ProjectTargetFramework)</TargetFramework>
@@ -20,13 +21,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.WinUI" Version="0.10.0" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="Arc.WinUI" Version="0.11.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.1.240916" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.1.240916" />
     <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240916" />
-    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.4" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -58,18 +59,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.Crypto" Version="1.31.0" />
+    <PackageReference Include="Arc.Crypto" Version="1.39.1" />
     <PackageReference Include="Arc.Threading" Version="0.30.2" />
-    <PackageReference Include="Arc.Unit" Version="0.18.0" />
-    <PackageReference Include="CrystalData" Version="0.24.0" />
+    <PackageReference Include="Arc.Unit" Version="0.19.1" />
+    <PackageReference Include="CrystalData" Version="0.28.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.0" />
-    <PackageReference Include="Tinyhand" Version="0.91.1" />
-    <PackageReference Include="ValueLink" Version="0.69.0" />
-    <PackageReference Include="WinUIEx" Version="2.5.0" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.3" />
+    <PackageReference Include="Tinyhand" Version="0.97.2" />
+    <PackageReference Include="ValueLink" Version="0.76.0" />
+    <PackageReference Include="WinUIEx" Version="2.5.1" />
   </ItemGroup>
 
 </Project>
