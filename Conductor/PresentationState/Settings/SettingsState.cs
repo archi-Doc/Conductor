@@ -81,8 +81,8 @@ public partial class SettingsState : ObservableObject
     }
 
     [ObservableProperty]
-    private string languageText = string.Empty;
+    public partial string LanguageText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private string scalingText = string.Empty;
+    public partial string ScalingText { get; set; } = string.Empty;
 }

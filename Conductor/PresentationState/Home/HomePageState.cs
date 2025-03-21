@@ -17,19 +17,19 @@ public partial class HomePageState : ObservableObject
     private readonly Timer timer;
 
     [ObservableProperty]
-    private string resultTextValue = string.Empty;
+    public partial string ResultTextValue { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private string iconPath = string.Empty;
+    public partial string IconPath { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private string conductorText = string.Empty;
+    public partial string ConductorText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private string cpuStatusText = string.Empty;
+    public partial string CpuStatusText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private HMSControlState shutdownHMS = new HMSControlState();
+    public partial HMSControlState ShutdownHMS { get; set; } = new HMSControlState();
 
     public HomePageState(ConductorCore core, IBasicPresentationService simpleWindowService, IConductorPresentationService conductorPresentationService)
     {
@@ -47,7 +47,7 @@ public partial class HomePageState : ObservableObject
         };
         this.timer.Start();
 
-        this.shutdownHMS.TimeModified += sender => this.UpdateCommandState();
+        this.ShutdownHMS.TimeModified += sender => this.UpdateCommandState();
     }
 
     public void UpdateStatus(bool update)
@@ -156,7 +156,7 @@ public partial class HomePageState : ObservableObject
     }
 
     [ObservableProperty]
-    private bool togglePreventSleep;
+    public partial bool TogglePreventSleep { get; set; }
 
     partial void OnTogglePreventSleepChanged(bool value)
     {
@@ -165,7 +165,7 @@ public partial class HomePageState : ObservableObject
     }
 
     [ObservableProperty]
-    private bool togglePreventScreenOff;
+    public partial bool TogglePreventScreenOff { get; set; }
 
     partial void OnTogglePreventScreenOffChanged(bool value)
     {
@@ -174,7 +174,7 @@ public partial class HomePageState : ObservableObject
     }
 
     [ObservableProperty]
-    private bool togglePreventShutdownWhileBusy;
+    public partial bool TogglePreventShutdownWhileBusy { get; set; }
 
     partial void OnTogglePreventShutdownWhileBusyChanged(bool value)
     {
