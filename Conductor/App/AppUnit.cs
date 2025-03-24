@@ -29,8 +29,6 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
                 context.Services.AddCrossChannel();
 
                 // Views and ViewModels
-                context.AddTransient<SimpleWindow>();
-                context.AddTransient<SimpleState>();
                 context.AddTransient<NaviWindow>();
                 context.AddTransient<HomePage>(); // AddSingleton
                 context.AddTransient<HomePageState>();

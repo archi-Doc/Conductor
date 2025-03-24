@@ -40,9 +40,6 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService, IConducto
 
     #region IBasicPresentationService
 
-    Task<RadioResult<ContentDialogResult>> IBasicPresentationService.MessageDialog(ulong title, ulong content, ulong defaultCommand, ulong cancelCommand, ulong secondaryCommand, CancellationToken cancellationToken)
-        => App.UiDispatcherQueue.EnqueueAsync(() => this.ShowMessageDialogAsync(title, content, defaultCommand, cancelCommand, secondaryCommand, cancellationToken));
-
     Task<RadioResult<ContentDialogResult>> IBasicPresentationService.MessageDialog(string title, string content, string primaryCommand, string? cancelCommand, string? secondaryCommand, CancellationToken cancellationToken)
         => App.UiDispatcherQueue.EnqueueAsync(() => this.ShowMessageDialogAsync(title, content, primaryCommand, cancelCommand, secondaryCommand, cancellationToken));
 
