@@ -28,7 +28,7 @@ public sealed partial class InformationPage : Page
         {
             try
             {
-                Arc.WinUI.Helper.OpenBrowser(hyperlink.NavigateUri.ToString());
+                Arc.WinUI.UiHelper.OpenBrowser(hyperlink.NavigateUri.ToString());
             }
             catch
             {

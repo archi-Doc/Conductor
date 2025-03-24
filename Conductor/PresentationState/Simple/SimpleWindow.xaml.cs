@@ -34,7 +34,7 @@ public sealed partial class SimpleWindow : WinUIEx.WindowEx
         args.Cancel = true; // Since the Closing function isn't awaiting, I'll cancel first. Sorry for writing such crappy code.
 
         var result = await this.ShowMessageDialogAsync(0, Hashed.Dialog.Exit, Hashed.Dialog.Yes, Hashed.Dialog.No);
-        if (result.TryGetSingleResult(out var r) && r == Hashed.Dialog.Yes)
+        if (result.TryGetSingleResult(out var r) && r == Microsoft.UI.Xaml.Controls.ContentDialogResult.Primary)
         {
             App.Exit();
         }

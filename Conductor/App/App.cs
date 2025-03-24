@@ -116,7 +116,7 @@ public static partial class App
     /// </summary>
     public static AppOptions Options { get; private set; } = default!;
 
-    public static bool IsUiThread => uiDispatcherQueue.HasThreadAccess;
+    public static DispatcherQueue UiDispatcherQueue => uiDispatcherQueue;
 
     private static Mutex? appMutex = string.IsNullOrEmpty(MutexName) ? default : new(false, MutexName);
     private static DispatcherQueue uiDispatcherQueue = default!;
@@ -137,7 +137,7 @@ public static partial class App
         PrepareDataFolder();
         PrepareVersionAndTitle();
         if (appMutex is not null &&
-            Arc.WinUI.Helper.PreventMultipleInstances(appMutex, Title))
+            Arc.WinUI.UiHelper.PreventMultipleInstances(appMutex, Title))
         {
             return;
         }
@@ -201,6 +201,20 @@ public static partial class App
         }
 
         return service;
+    }
+
+    public static T GetAndPrepareState<T>(this FrameworkElement element)
+        where T : class, IState
+    {
+        if (serviceProvider.GetService(typeof(T)) is not T state)
+        {
+            throw new ArgumentException($"{typeof(T)} needs to be registered in Configure within AppUnit.cs.");
+        }
+
+        element.Loaded += (sender, e) => state.RestoreState();
+        element.Unloaded += (sender, e) => state.StoreState();
+
+        return state;
     }
 
     /// <summary>
