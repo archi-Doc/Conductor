@@ -4,24 +4,31 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using Arc.WinUI;
+using CommunityToolkit.WinUI;
 using CrossChannel;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using WinUIEx;
 
-namespace Conductor.Presentation;
+namespace Conductor.PresentationState;
 
-public partial class NaviWindow : WindowEx, IBasicPresentationService, IConductorPresentationService
+public partial class NaviWindow : WindowEx, IMessageDialogService, IConductorPresentationService
 {
-    public NaviWindow(IChannel<IBasicPresentationService> basicPresentationChannel, IChannel<IConductorPresentationService> conductorPresentationChannel)
+    #region FieldAndProperty
+
+    private readonly App app;
+
+    #endregion
+    public NaviWindow(App app, IChannel<IMessageDialogService> messageDialogService, IChannel<IConductorPresentationService> conductorPresentationChannel)
     {
+        this.app = app;
         this.InitializeComponent();
         Scaler.Register(this.layoutTransform);
-        basicPresentationChannel.Open(this, true);
+        messageDialogService.Open(this, true);
         conductorPresentationChannel.Open(this, true);
 
-        this.Title = App.Title;
+        this.Title = app.Title;
         this.SetApplicationIcon();
         // this.RemoveIcon();
 
@@ -29,34 +36,16 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService, IConducto
         this.Closed += this.NaviWindow_Closed;
         this.AppWindow.Closing += this.AppWindow_Closing;
 
-        this.LoadWindowPlacement(App.Settings.WindowPlacement);
+        this.contentFrame.Navigating += app.NavigatingHandler; // Frame navigation does not support a DI container, hook into the Navigating event to create instances using a DI container.
+
+        this.LoadWindowPlacement(this.app.Settings.WindowPlacement);
         this.nvHome.IsSelected = true;
     }
 
-    #region FieldAndProperty
-
-    #endregion
-
     #region IBasicPresentationService
 
-    public Task<RadioResult<ulong>> MessageDialog(ulong title, ulong content, ulong defaultCommand, ulong cancelCommand, ulong secondaryCommand, CancellationToken cancellationToken)
-    {
-        return this.ShowMessageDialogAsync(title, content, defaultCommand, cancelCommand, secondaryCommand, cancellationToken);
-    }
-
-    public async Task<RadioResult<bool>> TryExit(CancellationToken cancellationToken = default)
-    {
-        var result = await this.ShowMessageDialogAsync(0, Hashed.Dialog.Exit, Hashed.Dialog.Yes, Hashed.Dialog.No, 0, cancellationToken);
-        if (result.TryGetSingleResult(out var r) && r == Hashed.Dialog.Yes)
-        {// Exit
-            App.Exit();
-            return new(true);
-        }
-        else
-        {// Canceled
-            return new(false);
-        }
-    }
+    Task<RadioResult<ContentDialogResult>> IMessageDialogService.Show(string title, string content, string primaryCommand, string? cancelCommand, string? secondaryCommand, CancellationToken cancellationToken)
+        => this.app.UiDispatcherQueue.EnqueueAsync(() => this.ShowMessageDialogAsync(title, content, primaryCommand, cancelCommand, secondaryCommand, cancellationToken));
 
     #endregion
 
@@ -79,7 +68,7 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService, IConducto
         // args.Cancel = true; // Since the Closing function isn't awaiting, I'll cancel first. Sorry for writing such crappy code.
         // await this.TryExit();
 
-        App.Exit();
+        this.app.Exit();
     }
 
     private void NaviWindow_Activated(object sender, WindowActivatedEventArgs args)
@@ -89,7 +78,7 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService, IConducto
     private void NaviWindow_Closed(object sender, WindowEventArgs args)
     {
         // Exit1
-        App.Settings.WindowPlacement = this.SaveWindowPlacement();
+        this.app.Settings.WindowPlacement = this.SaveWindowPlacement();
     }
 
     private async void nvSample_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -114,6 +103,6 @@ public partial class NaviWindow : WindowEx, IBasicPresentationService, IConducto
 
     private async void nvExit_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
     {
-        await this.TryExit();
+        await this.app.TryExit();
     }
 }

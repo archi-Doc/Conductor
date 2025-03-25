@@ -5,16 +5,16 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 
-namespace Conductor.Presentation;
+namespace Conductor.PresentationState;
 
 public sealed partial class HomePage : Page
 {
     public HomePageState State { get; }
 
-    public HomePage()
+    public HomePage(App app)
     {
         this.InitializeComponent();
-        this.State = App.GetService<HomePageState>();
+        this.State = app.GetAndPrepareState<HomePageState>(this);
         this.DataContext = this.State; // Set the DataContext when using Binding.
     }
 

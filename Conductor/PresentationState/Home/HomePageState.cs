@@ -5,14 +5,15 @@ using System.Timers;
 using Arc.WinUI;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Conductor.Presentation;
+using Conductor.PresentationState;
 
 namespace Conductor.State;
 
-public partial class HomePageState : ObservableObject
+public partial class HomePageState : ObservableObject, IState
 {
+    private readonly App app;
     private readonly ConductorCore core;
-    private readonly IBasicPresentationService basicPresentationService;
+    private readonly IMessageDialogService messageDialogService;
     private readonly IConductorPresentationService conductorPresentationService;
     private readonly Timer timer;
 
@@ -31,12 +32,13 @@ public partial class HomePageState : ObservableObject
     [ObservableProperty]
     public partial HMSControlState ShutdownHMS { get; set; } = new HMSControlState();
 
-    public HomePageState(ConductorCore core, IBasicPresentationService simpleWindowService, IConductorPresentationService conductorPresentationService)
+    public HomePageState(App app, ConductorCore core, IMessageDialogService messageDialogService, IConductorPresentationService conductorPresentationService)
     {
+        this.app = app;
         this.core = core;
-        this.basicPresentationService = simpleWindowService;
+        this.messageDialogService = messageDialogService;
         this.conductorPresentationService = conductorPresentationService;
-        this.TogglePreventShutdownWhileBusy = App.Settings.TogglePreventShutdownWhileBusy;
+        this.TogglePreventShutdownWhileBusy = app.Settings.TogglePreventShutdownWhileBusy;
 
         this.SetNotifyIcon();
 
@@ -152,7 +154,7 @@ public partial class HomePageState : ObservableObject
     [RelayCommand]
     private void TaskbarExit()
     {
-        App.Exit();
+        this.app.Exit();
     }
 
     [ObservableProperty]
@@ -179,7 +181,7 @@ public partial class HomePageState : ObservableObject
     partial void OnTogglePreventShutdownWhileBusyChanged(bool value)
     {
         this.core.PreventShutdownWhileBusy = value;
-        App.Settings.TogglePreventShutdownWhileBusy = value;
+        this.app.Settings.TogglePreventShutdownWhileBusy = value;
     }
 
     [RelayCommand]
@@ -191,7 +193,7 @@ public partial class HomePageState : ObservableObject
     private void Timer(ElapsedEventArgs elapsedEventArgs)
     {
         this.core.ProcessEverySecond();
-        App.ExecuteOrEnqueueOnUI(() => this.UpdateStatus(false));
+        this.app.UiDispatcherQueue.TryEnqueue(() => this.UpdateStatus(false));
     }
 
     private void SetNotifyIcon()

@@ -3,12 +3,12 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Conductor.Presentation;
+using Conductor.PresentationState;
 using Conductor.State;
 using CrossChannel;
 using SimpleCommandLine;
 
-namespace Conductor;
+namespace StandardWinUI;
 
 public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
 {
@@ -20,24 +20,24 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
             // Configuration for Unit.
             this.Configure(context =>
             {
-                context.AddSingleton<AppUnit>();
-                context.AddSingleton<AppClass>();
-                // context.CreateInstance<AppUnit>();
+                // context.AddSingleton<AppUnit>();
+                context.AddSingleton<StandardApp>();
+                context.AddSingleton<App>();
+                context.Services.AddSingleton<IApp>(x => x.GetRequiredService<App>());
+
                 context.AddSingleton<ConductorCore>();
 
                 // CrossChannel
                 context.Services.AddCrossChannel();
 
                 // Views and ViewModels
-                context.AddTransient<SimpleWindow>();
-                context.AddTransient<SimpleState>();
-                context.AddTransient<NaviWindow>();
-                context.AddTransient<HomePage>(); // AddSingleton
-                context.AddTransient<HomePageState>();
-                context.AddTransient<SettingsPage>();
-                context.AddTransient<SettingsState>();
-                context.AddTransient<InformationPage>();
-                context.AddTransient<InformationState>();
+                context.AddSingleton<NaviWindow>();
+                context.AddSingleton<HomePage>(); // AddSingleton
+                context.AddSingleton<HomePageState>();
+                context.AddSingleton<SettingsPage>();
+                context.AddSingleton<SettingsState>();
+                context.AddSingleton<InformationPage>();
+                context.AddSingleton<InformationState>();
 
                 context.AddTransient<HMSControlState>();
 
@@ -71,8 +71,8 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
 
             this.Preload(context =>
             {
-                context.ProgramDirectory = App.DataFolder;
-                context.DataDirectory = App.DataFolder;
+                context.ProgramDirectory = Entrypoint.DataFolder;
+                context.DataDirectory = Entrypoint.DataFolder;
             });
 
             this.SetupOptions<FileLoggerOptions>((context, options) =>
@@ -95,13 +95,6 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
                     {
                         NumberOfFileHistories = 0,
                         FileConfiguration = new GlobalFileConfiguration(AppSettings.Filename),
-                        SaveFormat = SaveFormat.Utf8,
-                    });
-
-                    context.AddCrystal<AppOptions>(new()
-                    {
-                        NumberOfFileHistories = 0,
-                        FileConfiguration = new GlobalFileConfiguration(AppOptions.Filename),
                         SaveFormat = SaveFormat.Utf8,
                     });
                 });
@@ -149,7 +142,7 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
 
         public ILogWriter? Filter(LogFilterParameter param)
         {// Log source/Event id/LogLevel -> Filter() -> ILog
-            if (param.LogSourceType == typeof(AppClass))
+            if (param.LogSourceType == typeof(StandardApp))
             {
                 // return null; // No log
                 if (param.LogLevel == LogLevel.Error)

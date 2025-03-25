@@ -112,8 +112,9 @@ public class ConductorTask
 
 public class ConductorCore
 {
-    public ConductorCore(ILogger<ConductorCore> logger, Crystalizer crystalizer)
+    public ConductorCore(App app, ILogger<ConductorCore> logger, Crystalizer crystalizer)
     {
+        this.app = app;
         this.logger = logger;
         this.crystalizer = crystalizer;
         this.Cpu = new ConductorCpu();
@@ -136,6 +137,7 @@ public class ConductorCore
 
     public ConductorStatus Status { get; }
 
+    private readonly App app;
     private readonly object cs = new();
     private readonly ILogger logger;
     private readonly Crystalizer crystalizer;
@@ -257,7 +259,7 @@ public class ConductorCore
 
                 Arc.WinAPI.Methods.AdjustToken();
                 Arc.WinAPI.Methods.ExitWindowsEx(Arc.WinAPI.ExitWindows.EWX_POWEROFF, 0);
-                App.Exit();
+                this.app.Exit();
 
                 this.ShutdownTask = null;
             }

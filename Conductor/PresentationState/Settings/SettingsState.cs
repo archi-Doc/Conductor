@@ -6,17 +6,20 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Conductor.State;
 
-public partial class SettingsState : ObservableObject
+public partial class SettingsState : ObservableObject, IState
 {
-    public SettingsState()
+    private readonly App app;
+
+    public SettingsState(App app)
     {
+        this.app = app;
         this.SetLanguageText();
         this.SetScalingText();
     }
 
     private void SetLanguageText()
     {
-        if (LanguageList.LanguageToIdentifier.TryGetValue(App.Settings.Culture, out var identifier))
+        if (LanguageList.LanguageToIdentifier.TryGetValue(this.app.Settings.Culture, out var identifier))
         {
             this.LanguageText = HashedString.GetOrEmpty(identifier);
         }
@@ -32,7 +35,7 @@ public partial class SettingsState : ObservableObject
     {
         try
         {
-            System.Diagnostics.Process.Start("Explorer.exe", App.DataFolder);
+            System.Diagnostics.Process.Start("Explorer.exe", this.app.DataFolder);
         }
         catch
         {
@@ -56,13 +59,13 @@ public partial class SettingsState : ObservableObject
     [RelayCommand]
     private void SelectLanguage(string language)
     {
-        if (App.Settings.Culture == language)
+        if (this.app.Settings.Culture == language)
         {
             return;
         }
 
-        App.Settings.Culture = language;
-        HashedString.ChangeCulture(App.Settings.Culture);
+        this.app.Settings.Culture = language;
+        HashedString.ChangeCulture(this.app.Settings.Culture);
         Arc.WinUI.Stringer.Refresh();
         this.SetLanguageText();
     }
