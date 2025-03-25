@@ -1,9 +1,8 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using Arc.WinUI;
 using Microsoft.UI.Xaml;
 
-namespace Conductor;
+namespace StandardWinUI;
 
 public partial class StandardApp : Application
 {

@@ -15,7 +15,7 @@
     <NoWarn>$(NoWarn);NETSDK1206</NoWarn>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <StartupObject>Conductor.Entrypoint</StartupObject>
+    <StartupObject>StandardWinUI.Entrypoint</StartupObject>
     <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

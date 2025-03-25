@@ -12,6 +12,7 @@ global using Arc.WinUI;
 global using CrystalData;
 global using Microsoft.Extensions.DependencyInjection;
 global using Conductor;
+global using StandardWinUI;
 global using Tinyhand;
 using System.Globalization;
 using System.Reflection;
@@ -22,7 +23,7 @@ using Conductor.PresentationState;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Conductor;
+namespace StandardWinUI;
 
 // TODO: Rename 'StandardWinUI' and modify the app-specific constants, icons and images.
 // Dependencies and data persistence: AppUnit.

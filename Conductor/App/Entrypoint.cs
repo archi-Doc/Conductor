@@ -4,11 +4,10 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Arc.WinUI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
-namespace Conductor;
+namespace StandardWinUI;
 
 #if DISABLE_XAML_GENERATED_MAIN
 
@@ -19,11 +18,6 @@ public static partial class Entrypoint
     public static string DataFolder { get; private set; } = string.Empty;
 
     private static Mutex? appMutex = string.IsNullOrEmpty(App.MutexName) ? default : new(false, App.MutexName);
-    private static IServiceProvider serviceProvider = default!;
-
-    public static T GetService<T>()
-        where T : notnull
-        => serviceProvider.GetRequiredService<T>();
 
     /// <summary>
     /// The entry point of the application.
@@ -52,7 +46,7 @@ public static partial class Entrypoint
 
                 var builder = new AppUnit.Builder();
                 unit = builder.Build();
-                serviceProvider = unit.Context.ServiceProvider;
+                var serviceProvider = unit.Context.ServiceProvider;
                 var app = serviceProvider.GetRequiredService<App>();
                 app.Initialize();
             });

@@ -1,6 +1,5 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System;
 using System.Windows.Input;
 using Conductor.State;
 using Microsoft.UI.Xaml;
@@ -20,7 +19,7 @@ public partial class HMSControl : UserControl
 
     public HMSControlState State
     {
-        get => this.state ??= Entrypoint.GetService<HMSControlState>();
+        get => this.state ??= new();
         set => this.state = value;
     }
 

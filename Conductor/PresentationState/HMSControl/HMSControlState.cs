@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Conductor.State;
 
-public class HMSControlState : ObservableObject, IState
+public class HMSControlState : ObservableObject
 { // Hour/Minute/Second
     #region FieldAndProperty
 

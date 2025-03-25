@@ -3,13 +3,12 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Arc.WinUI;
 using Conductor.PresentationState;
 using Conductor.State;
 using CrossChannel;
 using SimpleCommandLine;
 
-namespace Conductor;
+namespace StandardWinUI;
 
 public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
 {
