@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Input;
 
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Conductor.Presentation;
+namespace Conductor.PresentationState;
 
 public partial class HMSControl : UserControl
 {
@@ -20,7 +20,7 @@ public partial class HMSControl : UserControl
 
     public HMSControlState State
     {
-        get => this.state ??= App.GetService<HMSControlState>();
+        get => this.state ??= Entrypoint.GetService<HMSControlState>();
         set => this.state = value;
     }
 

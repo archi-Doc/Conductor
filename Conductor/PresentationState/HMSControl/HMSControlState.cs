@@ -1,12 +1,10 @@
 ﻿// Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System;
-using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Conductor.State;
 
-public class HMSControlState : ObservableObject
+public class HMSControlState : ObservableObject, IState
 { // Hour/Minute/Second
     #region FieldAndProperty
 

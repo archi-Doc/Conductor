@@ -4,19 +4,19 @@ using Conductor.State;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 
-namespace Conductor.Presentation;
+namespace Conductor.PresentationState;
 
 public sealed partial class InformationPage : Page
 {
     private const string LicenseUri = "https://opensource.org/licenses/MIT";
 
-    public InformationPage()
+    public InformationPage(App app)
     {
         this.InitializeComponent();
-        this.State = App.GetService<InformationState>();
+        this.State = app.GetService<InformationState>();
 
         var titleRun = new Run();
-        titleRun.Text = App.Title;
+        titleRun.Text = app.Title;
 
         var copyrightRun = new Run();
         copyrightRun.Text = "  Copyright (c) 2024 archi-Doc\nReleased under the MIT license\n";
