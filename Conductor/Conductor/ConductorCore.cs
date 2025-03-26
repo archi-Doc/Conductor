@@ -112,7 +112,7 @@ public class ConductorTask
 
 public class ConductorCore
 {
-    public ConductorCore(App app, ILogger<ConductorCore> logger, Crystalizer crystalizer)
+    public ConductorCore(IApp app, ILogger<ConductorCore> logger, Crystalizer crystalizer)
     {
         this.app = app;
         this.logger = logger;
@@ -137,7 +137,7 @@ public class ConductorCore
 
     public ConductorStatus Status { get; }
 
-    private readonly App app;
+    private readonly IApp app;
     private readonly object cs = new();
     private readonly ILogger logger;
     private readonly Crystalizer crystalizer;

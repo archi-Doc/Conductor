@@ -1,7 +1,5 @@
 // Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System.Collections.Generic;
-using Arc.WinUI;
 using Conductor.State;
 using Microsoft.UI.Xaml.Controls;
 
@@ -9,7 +7,7 @@ namespace Conductor.PresentationState;
 
 public sealed partial class SettingsPage : Page
 {
-    public SettingsPage(App app)
+    public SettingsPage(IApp app)
     {
         this.InitializeComponent();
         this.State = app.GetAndPrepareState<SettingsState>(this);
