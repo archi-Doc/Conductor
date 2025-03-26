@@ -47,8 +47,8 @@ public static partial class Entrypoint
                 var builder = new AppUnit.Builder();
                 unit = builder.Build();
                 var serviceProvider = unit.Context.ServiceProvider;
-                var app = serviceProvider.GetRequiredService<App>();
-                app.Initialize();
+                var app = serviceProvider.GetRequiredService<IApp>();
+                var application = app.GetApplication(); // Create an application instance.
             });
 
             Task.Run(async () =>

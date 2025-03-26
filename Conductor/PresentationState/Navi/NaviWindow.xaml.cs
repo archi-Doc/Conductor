@@ -1,9 +1,7 @@
 // Copyright (c) All contributors. All rights reserved. Licensed under the MIT license.
 
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
-using Arc.WinUI;
 using CommunityToolkit.WinUI;
 using CrossChannel;
 using Microsoft.UI.Windowing;
@@ -17,12 +15,15 @@ public partial class NaviWindow : WindowEx, IMessageDialogService, IConductorPre
 {
     #region FieldAndProperty
 
-    private readonly App app;
+    private readonly IApp app;
+    private readonly AppSettings appSettings;
 
     #endregion
-    public NaviWindow(App app, IChannel<IMessageDialogService> messageDialogService, IChannel<IConductorPresentationService> conductorPresentationChannel)
+
+    public NaviWindow(IApp app, AppSettings appSettings, IChannel<IMessageDialogService> messageDialogService, IChannel<IConductorPresentationService> conductorPresentationChannel)
     {
         this.app = app;
+        this.appSettings = appSettings;
         this.InitializeComponent();
         Scaler.Register(this.layoutTransform);
         messageDialogService.Open(this, true);
@@ -38,11 +39,11 @@ public partial class NaviWindow : WindowEx, IMessageDialogService, IConductorPre
 
         this.contentFrame.Navigating += app.NavigatingHandler; // Frame navigation does not support a DI container, hook into the Navigating event to create instances using a DI container.
 
-        this.LoadWindowPlacement(this.app.Settings.WindowPlacement);
+        this.LoadWindowPlacement(this.appSettings.WindowPlacement);
         this.nvHome.IsSelected = true;
     }
 
-    #region IBasicPresentationService
+    #region IMessageDialogService
 
     Task<RadioResult<ContentDialogResult>> IMessageDialogService.Show(string title, string content, string primaryCommand, string? cancelCommand, string? secondaryCommand, CancellationToken cancellationToken)
         => this.app.UiDispatcherQueue.EnqueueAsync(() => this.ShowMessageDialogAsync(title, content, primaryCommand, cancelCommand, secondaryCommand, cancellationToken));
@@ -78,7 +79,7 @@ public partial class NaviWindow : WindowEx, IMessageDialogService, IConductorPre
     private void NaviWindow_Closed(object sender, WindowEventArgs args)
     {
         // Exit1
-        this.app.Settings.WindowPlacement = this.SaveWindowPlacement();
+        this.appSettings.WindowPlacement = this.SaveWindowPlacement();
     }
 
     private async void nvSample_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

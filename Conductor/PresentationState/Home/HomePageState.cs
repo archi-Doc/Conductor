@@ -11,7 +11,8 @@ namespace Conductor.State;
 
 public partial class HomePageState : ObservableObject, IState
 {
-    private readonly App app;
+    private readonly IApp app;
+    private readonly AppSettings appSettings;
     private readonly ConductorCore core;
     private readonly IMessageDialogService messageDialogService;
     private readonly IConductorPresentationService conductorPresentationService;
@@ -32,13 +33,14 @@ public partial class HomePageState : ObservableObject, IState
     [ObservableProperty]
     public partial HMSControlState ShutdownHMS { get; set; } = new HMSControlState();
 
-    public HomePageState(App app, ConductorCore core, IMessageDialogService messageDialogService, IConductorPresentationService conductorPresentationService)
+    public HomePageState(IApp app, AppSettings appSettings, ConductorCore core, IMessageDialogService messageDialogService, IConductorPresentationService conductorPresentationService)
     {
         this.app = app;
+        this.appSettings = appSettings;
         this.core = core;
         this.messageDialogService = messageDialogService;
         this.conductorPresentationService = conductorPresentationService;
-        this.TogglePreventShutdownWhileBusy = app.Settings.TogglePreventShutdownWhileBusy;
+        this.TogglePreventShutdownWhileBusy = appSettings.TogglePreventShutdownWhileBusy;
 
         this.SetNotifyIcon();
 
@@ -181,7 +183,7 @@ public partial class HomePageState : ObservableObject, IState
     partial void OnTogglePreventShutdownWhileBusyChanged(bool value)
     {
         this.core.PreventShutdownWhileBusy = value;
-        this.app.Settings.TogglePreventShutdownWhileBusy = value;
+        this.appSettings.TogglePreventShutdownWhileBusy = value;
     }
 
     [RelayCommand]

@@ -11,7 +11,6 @@ global using Arc.Unit;
 global using Arc.WinUI;
 global using CrystalData;
 global using Microsoft.Extensions.DependencyInjection;
-global using Conductor;
 global using StandardWinUI;
 global using Tinyhand;
 using System.Globalization;
@@ -19,6 +18,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.WinUI;
+using Conductor;
 using Conductor.PresentationState;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,9 +29,9 @@ namespace StandardWinUI;
 // Dependencies and data persistence: AppUnit.
 // Presentation-State model: 5.Advanced is equipped with basic functionalities, it is recommended to use this as a template.
 
-// App.GetService<T>() is used to retrieve a service of type T.
 // AppSettings manages the application's settings.
-// IBasicPresentationService.TryExit() attempts to exit the app, while App.Exit() exits the app without confirmation.
+// IApp.GetService<T>() is used to retrieve a service of type T.
+// IApp.TryExit() attempts to exit the app, while IApp.Exit() exits the app without confirmation.
 // NaviWindow_Closed() is called when the main window is closed.
 
 /// <summary>
@@ -46,14 +46,10 @@ public class App : AppBase
     public const string DefaultCulture = "en"; // The default culture for the application.
     public const double DefaultFontSize = 14; // The default font size for the application.
 
-    #region FieldAndProperty
-
     /// <summary>
     /// Gets the settings for the application.
     /// </summary>
     public AppSettings Settings { get; private set; } = default!;
-
-    #endregion
 
     private void LoadCrystalData()
     {
@@ -135,10 +131,6 @@ public class App : AppBase
     public App(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
-    }
-
-    internal void Initialize()
-    {
         this.DataFolder = Entrypoint.DataFolder;
         this.UiDispatcherQueue = Entrypoint.UiDispatcherQueue;
 
@@ -159,8 +151,6 @@ public class App : AppBase
 
         // Title
         this.Title = HashedString.Get(Hashed.App.Name) + " " + this.Version;
-
-        _ = this.GetApplication();
     }
 
     #endregion
