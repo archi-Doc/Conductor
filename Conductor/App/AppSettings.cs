@@ -5,7 +5,7 @@ namespace StandardWinUI;
 [TinyhandObject(ImplicitKeyAsName = true)]
 public partial class AppSettings
 {// Application Settings
-    public const string Filename = "AppSettings.tinyhand";
+    public const string Filename = "AppSettings";
 
     public DipWindowPlacement WindowPlacement { get; set; } = default!;
 
