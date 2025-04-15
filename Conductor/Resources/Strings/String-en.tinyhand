@@ -25,49 +25,39 @@ core_shuttingdown = "Waiting shutdown・・・{0} seconds"
 core_shuttingdown_cpu = "Waiting for shutdown due to high CPU usage（{0:F0} %）"
 core_cpustatus = "CPU Max usage {0:F0} % / Avg. usage {1:F0} %"
 
-App = {
-    Name = "Conductor" // Name
-    Description = "description"
-    DateTime = "MM/dd H:mm:ss"
-}
+App=
+  Name = "Conductor" // Name
+  Description = "description"
+  DateTime = "MM/dd H:mm:ss"
 
-Navigation = {
-    Home = "Home"
-    Settings = "Settings"
-    Information = "Information"
-    Exit = "Exit"
-}
+Navigation=
+  Home = "Home"
+  Settings = "Settings"
+  Information = "Information"
+  Exit = "Exit"
 
-// dialog
-Dialog =
-{
-    Ok = "O K"
-    Cancel = "Cancel"
-    Yes = "Yes"
-    No = "No"
-    Exit = "Are you sure you want to exit?"
-    Message = "Yes or no?"
-}
+Dialog=
+  Ok = "O K"
+  Cancel = "Cancel"
+  Yes = "Yes"
+  No = "No"
+  Exit = "Are you sure you want to exit?"
+  Message = "Yes or no?"
 
-// settings
-Settings = {
-DataFolder = "Data folder"
-Open = "Open"
-Language = "Language"
-DisplayScaling = "Display scaling"
-CloseButton = "Close Button"
-}
+Settings=
+  DataFolder = "Data folder"
+  Open = "Open"
+  Language = "Language"
+  DisplayScaling = "Display scaling"
+  CloseButton = "Close Button"
 
-// other
-Language = {
-    En = "English (英語）"
-    Ja = "Japanese (日本語)"
-}
+Language=
+  En = "English (英語）"
+  Ja = "Japanese (日本語)"
 
-Button = {
-    Text = "Notification message"
-    Settings = "Settings"
-    DataFolder = "DataFolder"
-    AddItem = "Add"
-    ClearItem = "Clear"
-}
+Button=
+  Text = "Notification message"
+  Settings = "Settings"
+  DataFolder = "DataFolder"
+  AddItem = "Add"
+  ClearItem = "Clear"
