@@ -55,7 +55,7 @@ public static partial class Entrypoint
             {// 'await task' does not work property.
                 if (unit?.Context.ServiceProvider.GetService<Crystalizer>() is { } crystalizer)
                 {
-                    await crystalizer.SaveAllAndTerminate();
+                    await crystalizer.StoreAndRip();
                 }
 
                 ThreadCore.Root.Terminate();

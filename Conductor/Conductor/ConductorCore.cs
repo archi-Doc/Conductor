@@ -255,7 +255,7 @@ public class ConductorCore
 
                 this.logger.TryGet()?.Log("Shutdown process.");
 
-                this.crystalizer.SaveAll().Wait();
+                this.crystalizer.StoreAndRip().Wait();
 
                 Arc.WinAPI.Methods.AdjustToken();
                 Arc.WinAPI.Methods.ExitWindowsEx(Arc.WinAPI.ExitWindows.EWX_POWEROFF, 0);

@@ -54,7 +54,7 @@ public class App : AppBase
     private void LoadCrystalData()
     {
         var crystalizer = this.GetService<Crystalizer>();
-        crystalizer.PrepareAndLoadAll(false).Wait();
+        crystalizer.PrepareAndLoad(false).Wait();
         this.Settings = crystalizer.GetCrystal<AppSettings>().Data;
     }
 

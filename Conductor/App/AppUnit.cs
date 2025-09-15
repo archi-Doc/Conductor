@@ -70,18 +70,19 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
                 });
             });
 
-            this.Preload(context =>
+            this.PreConfigure(context =>
             {
                 context.ProgramDirectory = Entrypoint.DataFolder;
                 context.DataDirectory = Entrypoint.DataFolder;
-            });
-
-            this.SetupOptions<FileLoggerOptions>((context, options) =>
-            {// FileLoggerOptions
+            }).PostConfigure(context =>
+            {
                 var logfile = "Logs/Log.txt";
-                options.Path = Path.Combine(context.ProgramDirectory, logfile);
-                options.MaxLogCapacity = 2;
-                options.ClearLogsAtStartup = false;
+                context.SetOptions(context.GetOptions<FileLoggerOptions>() with
+                {// FileLoggerOptions
+                    Path = Path.Combine(context.DataDirectory, logfile),
+                    MaxLogCapacity = 2,
+                    ClearLogsAtStartup = false,
+                });
             });
 
             this.AddBuilder(CrystalBuilder());
