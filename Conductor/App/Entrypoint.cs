@@ -33,7 +33,7 @@ public static partial class Entrypoint
             return;
         }
 
-        AppUnit.Unit? unit = default;
+        AppUnit.Product? product = default;
         try
         {
             WinRT.ComWrappersSupport.InitializeComWrappers();
@@ -45,22 +45,22 @@ public static partial class Entrypoint
                 SynchronizationContext.SetSynchronizationContext(context);
 
                 var builder = new AppUnit.Builder();
-                unit = builder.Build();
-                var serviceProvider = unit.Context.ServiceProvider;
+                product = builder.Build();
+                var serviceProvider = product.Context.ServiceProvider;
                 var app = serviceProvider.GetRequiredService<IApp>();
                 var application = app.GetApplication(); // Create an application instance.
             });
 
             Task.Run(async () =>
             {// 'await task' does not work property.
-                if (unit?.Context.ServiceProvider.GetService<Crystalizer>() is { } crystalizer)
+                if (product?.Context.ServiceProvider.GetService<CrystalControl>() is { } crystalizer)
                 {
                     await crystalizer.StoreAndRip();
                 }
 
                 ThreadCore.Root.Terminate();
                 await ThreadCore.Root.WaitForTerminationAsync(-1);
-                if (unit?.Context.ServiceProvider.GetService<UnitLogger>() is { } unitLogger)
+                if (product?.Context.ServiceProvider.GetService<UnitLogger>() is { } unitLogger)
                 {
                     await unitLogger.FlushAndTerminate();
                 }
