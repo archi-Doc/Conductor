@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.WinUI" Version="0.17.0" />
+    <PackageReference Include="Arc.WinUI" Version="0.19.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
@@ -58,14 +58,14 @@
     <PackageReference Include="Arc.Crypto" Version="1.41.3" />
     <PackageReference Include="Arc.Threading" Version="0.35.0" />
     <PackageReference Include="Arc.Unit" Version="0.24.0" />
-    <PackageReference Include="CrystalData" Version="0.34.2" />
+    <PackageReference Include="CrystalData" Version="0.36.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.9" />
-    <PackageReference Include="Tinyhand" Version="0.128.0" />
-    <PackageReference Include="ValueLink" Version="0.102.1" />
+    <PackageReference Include="Tinyhand" Version="0.131.0" />
+    <PackageReference Include="ValueLink" Version="0.104.0" />
     <PackageReference Include="WinUIEx" Version="2.8.0" />
   </ItemGroup>
 

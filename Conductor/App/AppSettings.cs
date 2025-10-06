@@ -2,7 +2,7 @@
 
 namespace StandardWinUI;
 
-[TinyhandObject(ImplicitKeyAsName = true)]
+[TinyhandObject(ImplicitMemberNameAsKey = true)]
 public partial class AppSettings
 {// Application Settings
     public const string Filename = "AppSettings";
