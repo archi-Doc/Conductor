@@ -2,12 +2,12 @@
 
 namespace StandardWinUI;
 
-[TinyhandObject(ImplicitKeyAsName = true)]
+[TinyhandObject(ImplicitMemberNameAsKey = true)]
 public partial class AppSettings
 {// Application Settings
     public const string Filename = "AppSettings";
 
-    public DipWindowPlacement WindowPlacement { get; set; } = default!;
+    public DipWindowPlacement WindowPlacement { get; set; } = new();
 
     public string Culture { get; set; } = string.Empty;
 

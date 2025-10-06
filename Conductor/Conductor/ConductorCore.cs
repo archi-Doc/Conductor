@@ -112,7 +112,7 @@ public class ConductorTask
 
 public class ConductorCore
 {
-    public ConductorCore(IApp app, ILogger<ConductorCore> logger, Crystalizer crystalizer)
+    public ConductorCore(IApp app, ILogger<ConductorCore> logger, CrystalControl crystalizer)
     {
         this.app = app;
         this.logger = logger;
@@ -140,7 +140,7 @@ public class ConductorCore
     private readonly IApp app;
     private readonly object cs = new();
     private readonly ILogger logger;
-    private readonly Crystalizer crystalizer;
+    private readonly CrystalControl crystalizer;
 
     public void Shutdown(int hour, int minute, int second)
     {
@@ -255,7 +255,7 @@ public class ConductorCore
 
                 this.logger.TryGet()?.Log("Shutdown process.");
 
-                this.crystalizer.SaveAll().Wait();
+                this.crystalizer.StoreAndRip().Wait();
 
                 Arc.WinAPI.Methods.AdjustToken();
                 Arc.WinAPI.Methods.ExitWindowsEx(Arc.WinAPI.ExitWindows.EWX_POWEROFF, 0);
