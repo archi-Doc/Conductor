@@ -28,9 +28,6 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
 
                 context.AddSingleton<ConductorCore>();
 
-                // CrossChannel
-                context.Services.AddCrossChannel();
-
                 // Views and ViewModels
                 context.AddSingleton<NaviWindow>();
                 context.AddSingleton<HomePage>(); // AddSingleton
@@ -45,9 +42,6 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
                 // Command
                 // context.AddCommand(typeof(TestCommand));
                 // context.AddCommand(typeof(TestCommand2));
-
-                // Log filter
-                context.AddSingleton<ExampleLogFilter>();
 
                 // Logger
                 context.ClearLoggerResolver();
@@ -117,8 +111,8 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
             // Create optional instances
             this.Context.CreateInstances();
 
-            this.Context.SendPrepare(new());
-            await this.Context.SendStartAsync(new(ThreadCore.Root));
+            await this.Context.SendPrepare();
+            await this.Context.SendStart();
 
             var parserOptions = SimpleParserOptions.Standard with
             {
@@ -130,37 +124,9 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
             // Main
             await SimpleParser.ParseAndRunAsync(this.Context.Commands, param.Args, parserOptions);
 
-            this.Context.SendStop(new());
-            await this.Context.SendTerminateAsync(new());
+            await this.Context.SendStop();
+            await this.Context.SendTerminate();
         }
-    }
-
-    private class ExampleLogFilter : ILogFilter
-    {
-        public ExampleLogFilter(AppUnit consoleUnit)
-        {
-            this.consoleUnit = consoleUnit;
-        }
-
-        public ILogWriter? Filter(LogFilterParameter param)
-        {// Log source/Event id/LogLevel -> Filter() -> ILog
-            if (param.LogSourceType == typeof(StandardApp))
-            {
-                // return null; // No log
-                if (param.LogLevel == LogLevel.Error)
-                {
-                    return param.Context.TryGet<ConsoleAndFileLogger>(LogLevel.Fatal); // Error -> Fatal
-                }
-                else if (param.LogLevel == LogLevel.Fatal)
-                {
-                    return param.Context.TryGet<ConsoleAndFileLogger>(LogLevel.Error); // Fatal -> Error
-                }
-            }
-
-            return param.OriginalLogger;
-        }
-
-        private AppUnit consoleUnit;
     }
 
     public AppUnit(UnitContext context, ILogger<AppUnit> logger, UnitOptions options)
@@ -170,26 +136,26 @@ public class AppUnit : UnitBase, IUnitPreparable, IUnitExecutable
         this.options = options;
     }
 
-    void IUnitPreparable.Prepare(UnitMessage.Prepare message)
+    async Task IUnitPreparable.Prepare(UnitContext unitContext, CancellationToken cancellationToken)
     {
-        this.logger.TryGet()?.Log("Unit prepared.");
-        this.logger.TryGet()?.Log($"Root: {this.options.ProgramDirectory}");
-        this.logger.TryGet()?.Log($"Data: {this.options.DataDirectory}");
+        this.logger.GetWriter()?.Write("Unit prepared.");
+        this.logger.GetWriter()?.Write($"Root: {this.options.ProgramDirectory}");
+        this.logger.GetWriter()?.Write($"Data: {this.options.DataDirectory}");
     }
 
-    async Task IUnitExecutable.StartAsync(UnitMessage.StartAsync message, CancellationToken cancellationToken)
+    async Task IUnitExecutable.Start(UnitContext unitContext, CancellationToken cancellationToken)
     {
-        this.logger.TryGet()?.Log("Unit started.");
+        this.logger.GetWriter()?.Write("Unit started.");
     }
 
-    void IUnitExecutable.Stop(UnitMessage.Stop message)
+    async Task IUnitExecutable.Stop(UnitContext unitContext, CancellationToken cancellationToken)
     {
-        this.logger.TryGet()?.Log("Unit stopped.");
+        this.logger.GetWriter()?.Write("Unit stopped.");
     }
 
-    async Task IUnitExecutable.TerminateAsync(UnitMessage.TerminateAsync message, CancellationToken cancellationToken)
+    async Task IUnitExecutable.Terminate(UnitContext unitContext, CancellationToken cancellationToken)
     {
-        this.logger.TryGet()?.Log("Unit terminated.");
+        this.logger.GetWriter()?.Write("Unit terminated.");
     }
 
     private readonly ILogger logger;

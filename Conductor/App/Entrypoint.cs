@@ -60,9 +60,9 @@ public static partial class Entrypoint
 
                 ThreadCore.Root.Terminate();
                 await ThreadCore.Root.WaitForTerminationAsync(-1);
-                if (product?.Context.ServiceProvider.GetService<UnitLogger>() is { } unitLogger)
+                if (product?.Context.ServiceProvider.GetService<LogUnit>() is { } logUnit)
                 {
-                    await unitLogger.FlushAndTerminate();
+                    await logUnit.FlushAndTerminate();
                 }
             }).Wait();
         }
