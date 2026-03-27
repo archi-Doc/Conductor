@@ -152,7 +152,7 @@ public class ConductorCore
             }
 
             this.ShutdownTask = new ConductorTask(ConductorTaskType.Shutdown, hour, minute, second);
-            this.logger.TryGet()?.Log(this.ShutdownTask.ToString());
+            this.logger.GetWriter()?.Write(this.ShutdownTask.ToString());
         }
     }
 
@@ -162,7 +162,7 @@ public class ConductorCore
         {
             if (this.ShutdownTask != null)
             {
-                this.logger.TryGet()?.Log("Abort shutdown.");
+                this.logger.GetWriter()?.Write("Abort shutdown.");
                 this.ShutdownTask = null;
                 return true;
             }
@@ -237,7 +237,7 @@ public class ConductorCore
                 if (this.ShutdownTask == null || this.ShutdownTask.Type != ConductorTaskType.ShutdownProcess)
                 {
                     this.ShutdownTask = new ConductorTask(ConductorTaskType.ShutdownProcess, 0, 0, this.ShutdownWaitingSecond);
-                    this.logger.TryGet()?.Log(this.ShutdownTask.ToString());
+                    this.logger.GetWriter()?.Write(this.ShutdownTask.ToString());
                 }
             }
             else if (task.Type == ConductorTaskType.ShutdownProcess)
@@ -253,7 +253,7 @@ public class ConductorCore
                     }
                 }
 
-                this.logger.TryGet()?.Log("Shutdown process.");
+                this.logger.GetWriter()?.Write("Shutdown process.");
 
                 this.crystalizer.StoreAndRip().Wait();
 
