@@ -21,14 +21,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.WinUI" Version="0.23.0" />
+    <PackageReference Include="Arc.WinUI" Version="0.26.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.LayoutTransformControl" Version="8.2.251219" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.251219" />
     <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
     <PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -55,18 +55,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Arc.Crypto" Version="1.42.1" />
-    <PackageReference Include="Arc.Threading" Version="0.36.1" />
-    <PackageReference Include="Arc.Unit" Version="0.36.0" />
-    <PackageReference Include="CrystalData" Version="0.39.1" />
+    <PackageReference Include="Arc.Crypto" Version="1.49.0" />
+    <PackageReference Include="Arc.Threading" Version="0.51.0" />
+    <PackageReference Include="Arc.Unit" Version="0.45.0" />
+    <PackageReference Include="CrystalData" Version="0.46.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.5" />
-    <PackageReference Include="Tinyhand" Version="0.135.3" />
-    <PackageReference Include="ValueLink" Version="0.109.1" />
-    <PackageReference Include="WinUIEx" Version="2.9.0" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.11" />
+    <PackageReference Include="Tinyhand" Version="0.143.3" />
+    <PackageReference Include="ValueLink" Version="0.117.2" />
+    <PackageReference Include="WinUIEx" Version="2.9.3" />
   </ItemGroup>
 
 </Project>
